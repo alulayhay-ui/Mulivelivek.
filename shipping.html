@@ -31,7 +31,7 @@
   </style>
 </head>
 <body>
-  <header class="site-header">Mulivelivek 結帳流程</header>
+  <header class="site-header"><a href="index.html">Mulivelivek 結帳流程</a></header>
 
   <main class="page-content">
     <form class="card" id="shippingForm">
@@ -69,7 +69,7 @@
       e.preventDefault();
       alert('🎉 訂單已成功送出！\n\n(此為展示網站模擬流程，不會實際扣款。)');
       localStorage.removeItem('mulivelivekCart'); // 結帳後清空購物車
-      window.location.href = 'index.html';
+      window.location.href = 'index.html'; // 送出後自動導回首頁
     });
   </script>
 </body>
