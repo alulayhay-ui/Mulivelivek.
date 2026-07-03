@@ -244,52 +244,15 @@
     </div>
   </div>
 
-  <script>
-    function loadCart() { try { return JSON.parse(localStorage.getItem('mulivelivekCart') || '[]'); } catch { return []; } }
-    document.getElementById('headerCartCount').textContent = loadCart().reduce((sum, item) => sum + (item.quantity || 0), 0);
-
-    const aiFab = document.getElementById('aiFab'), aiWindow = document.getElementById('aiWindow'), aiClose = document.getElementById('aiClose'), aiMessages = document.getElementById('aiMessages'), aiInput = document.getElementById('aiInput'), aiSend = document.getElementById('aiSend');
-    aiFab.addEventListener('click', () => aiWindow.style.display = aiWindow.style.display === 'flex' ? 'none' : 'flex');
-    aiClose.addEventListener('click', () => aiWindow.style.display = 'none');
-
-    async function sendMessage() {
-      const text = aiInput.value.trim();
-      if (!text) return;
-      appendMessage(text, 'user');
-      aiInput.value = ''; aiSend.disabled = true;
-      const loadingId = appendMessage('...', 'ai');
-
-      try {
-        const apiKey = ""; 
-        if (!apiKey) {
-            document.getElementById(loadingId).textContent = "我是 Mulivelivek 導覽員！(注意：目前尚未串接 API 金鑰，所以這是預設回覆喔！)";
-            return;
-        }
-
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text }] }],
-            systemInstruction: { parts: [{ text: "你是 Mulivelivek 初鹿部落的虛擬導覽員。請用親切、熱情的口吻。介紹部落文化(Mulivelivek意思是風吹不進來的地方)、商品、簡單卑南語('inavayan代表你好)。回答簡短有力。" }] }
-          })
-        });
-        const data = await res.json();
-        if (data.error) throw new Error(data.error.message);
-        document.getElementById(loadingId).innerHTML = data.candidates?.[0]?.content?.parts?.[0]?.text.replace(/\n/g, '<br>') || "抱歉，請稍後再試。";
-      } catch (e) {
-        document.getElementById(loadingId).textContent = "連線失敗，請檢查 API Key 或網路連線。";
-      } finally {
-        aiSend.disabled = false; aiMessages.scrollTop = aiMessages.scrollHeight;
-      }
+<script>
+    const CART_KEY = 'mulivelivek_cart';
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+      const count = cart.reduce((s, i) => s + (i.qty || 0), 0);
+      document.getElementById('headerCartCount').textContent = count;
     }
-    
-    function appendMessage(text, sender) {
-      const div = document.createElement('div');
-      div.className = `msg msg-${sender}`; div.id = 'msg-' + Date.now();
-      div.innerHTML = text; aiMessages.appendChild(div); aiMessages.scrollTop = aiMessages.scrollHeight; return div.id;
-    }
-    aiSend.addEventListener('click', sendMessage);
-    aiInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+    // 初始化執行一次
+    updateCartCount();
   </script>
 </body>
 </html>
