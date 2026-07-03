@@ -1,33 +1,129 @@
-// 1. 放入新的部署網址
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzPOf0RR61GqfSRaufMEUbDlYZAYb00Xwmfwqtdq5oa2kfXfeUcCDSFSyQXT5yRg4Z_/exec';
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>結帳｜Mulivelivek 初鹿部落</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --bg: #f7f3ec; --bg-soft: #fffdf8; --card: #ffffff; --border: #e3ddcf; --accent: #c58543; --accent-dark: #92572a; --text: #2f2415; --muted: #7b6d5c; }
+    body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; }
+    
+    .site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-mark { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: radial-gradient(circle at 30% 20%, #f8e1b4, #c98c46); }
+    .header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+    .header-nav a:hover { color: var(--accent); }
+    .header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--bg-soft); font-size: 0.85rem; border: 1px solid var(--border); transition: 0.2s; color: var(--text); }
+    .header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
+  </style>
+</head>
+<body class="min-h-screen">
 
-// 2. 確保資料格式與後端對齊
-function buildOrderData(pickupMethod) {
-  const cart = getCart();
-  const itemsString = cart
-    .map(i => `${i.name || '商品'} (尺寸:${i.size || '無'}, 數量:${i.qty || 1})`)
-    .join('；');
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-text">
+          <div class="font-bold text-lg">Mulivelivek 初鹿部落</div>
+          <div class="text-xs text-stone-500 uppercase tracking-widest">'inavayan</div>
+        </div>
+      </a>
+      <nav class="header-nav hidden md:flex">
+        <a href="index.html">首頁</a>
+        <a href="products.html">所有商品</a>
+        <a href="gallery.html">部落相簿</a>
+        <a href="order-tracking.html">訂單查詢</a>
+      </nav>
+      <a href="cart.html" class="header-cart-pill">
+        購物車 <span class="header-cart-count" id="headerCartCount">0</span>
+      </a>
+    </div>
+  </header>
 
-  return {
-    name:         sessionStorage.getItem('mulive_name') || '',
-    phone:        sessionStorage.getItem('mulive_phone') || '',
-    last5:        sessionStorage.getItem('mulive_last5') || '',
-    items:        itemsString, 
-    pickupMethod: pickupMethod || '',
-    note:         sessionStorage.getItem('mulive_note') || ''
-  };
-}
+  <main class="max-w-[600px] mx-auto w-full px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6 text-[#92572a]">結帳確認</h1>
+    
+    <div id="checkoutForm" class="space-y-6">
+      <div class="bg-white p-6 rounded-2xl border border-[#e3ddcf] shadow-sm">
+        <h2 class="text-lg font-semibold mb-4">訂單明細</h2>
+        <div id="cartSummary" class="space-y-3 mb-4"></div>
+        <div class="pt-4 border-t border-[#e3ddcf] flex justify-between font-bold text-lg">
+          <span>總計</span>
+          <span id="totalAmount">NT$ 0</span>
+        </div>
+      </div>
 
-// 3. 發送函式 (不要加 header，使用 no-cors)
-async function sendOrderToSheet(orderData) {
-  try {
-    await fetch(WEB_APP_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      body: JSON.stringify(orderData)
+      <div class="bg-white p-6 rounded-2xl border border-[#e3ddcf] shadow-sm space-y-4">
+        <h2 class="text-lg font-semibold">聯絡與匯款資訊</h2>
+        <div><label class="block text-sm font-medium mb-1">姓名</label><input type="text" id="name" class="w-full p-3 rounded-xl border border-[#e3ddcf] bg-[#fffdf8]" placeholder="請輸入姓名" required></div>
+        <div><label class="block text-sm font-medium mb-1">電話</label><input type="tel" id="phone" class="w-full p-3 rounded-xl border border-[#e3ddcf] bg-[#fffdf8]" placeholder="請輸入電話" required></div>
+        <div><label class="block text-sm font-medium mb-1">匯款後五碼</label><input type="text" id="last5" class="w-full p-3 rounded-xl border border-[#e3ddcf] bg-[#fffdf8]" placeholder="請輸入匯款後五碼" maxlength="5" required></div>
+        <div><label class="block text-sm font-medium mb-1">取貨方式</label><select id="pickup" class="w-full p-3 rounded-xl border border-[#e3ddcf] bg-[#fffdf8]"><option>巴拉冠自取</option><option>7-11 店到店</option></select></div>
+        <div><label class="block text-sm font-medium mb-1">備註 (選填)</label><textarea id="note" class="w-full p-3 rounded-xl border border-[#e3ddcf] bg-[#fffdf8]" rows="2"></textarea></div>
+      </div>
+
+      <button id="submitBtn" class="w-full py-4 bg-[#2f2415] text-white rounded-full font-bold text-lg hover:bg-black transition-all">確認送出訂單</button>
+    </div>
+  </main>
+
+  <script>
+    const CART_KEY = 'mulivelivek_cart';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz9T2P79LCpayo1e3ysoV6JucmpyzIHVXgN1xDRHyjc5_0ogpaYi4ynyJgGf-bA5-6r/exec'; // ‼️ 請換成您的網址
+
+    function initCheckout() {
+      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+      const container = document.getElementById('cartSummary');
+      const totalEl = document.getElementById('totalAmount');
+      const cartCount = document.getElementById('headerCartCount');
+      
+      let total = 0, count = 0;
+      cart.forEach(item => {
+        const qty = parseInt(item.qty) || 1;
+        total += (item.price || 0) * qty;
+        count += qty;
+        container.innerHTML += `<div class="flex justify-between text-sm"><span>${item.name || '商品'} x ${qty} (${item.size || 'F'})</span><span>NT$ ${(item.price || 0) * qty}</span></div>`;
+      });
+      totalEl.textContent = 'NT$ ' + total;
+      cartCount.textContent = count;
+      return { cart, total };
+    }
+
+    const { cart, total } = initCheckout();
+
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('submitBtn');
+      const orderData = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        last5: document.getElementById('last5').value,
+        pickupMethod: document.getElementById('pickup').value,
+        note: document.getElementById('note').value,
+        items: cart.map(i => `${i.name}(${i.size})x${i.qty}`).join(', '),
+        total: total
+      };
+
+      if(!orderData.name || !orderData.phone || !orderData.last5) return alert('請填寫完整資訊');
+
+      btn.disabled = true;
+      btn.innerText = '處理中...';
+
+      try {
+        await fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(orderData)
+        });
+        alert('訂單已送出，感謝您的購買！');
+        localStorage.removeItem(CART_KEY);
+        window.location.href = 'index.html';
+      } catch (err) {
+        alert('送出失敗，請確認網址。');
+        btn.disabled = false;
+        btn.innerText = '確認送出訂單';
+      }
     });
-    console.log('送出成功');
-  } catch (err) {
-    console.error('送出失敗', err);
-  }
-}
+  </script>
+</body>
+</html>
