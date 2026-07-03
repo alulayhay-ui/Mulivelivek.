@@ -170,7 +170,35 @@
     </div>
   </div>
 
-  <script>
+ <script>
+    const CART_KEY = 'mulivelivek_cart';
+
+    // 更新 Header 數字函式
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+      const count = cart.reduce((s, i) => s + (i.qty || 0), 0);
+      document.getElementById('headerCartCount').textContent = count;
+    }
+
+    // 加入購物車邏輯
+    document.getElementById('addToCartBtn').addEventListener('click', () => {
+      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+      cart.push({ 
+        name: '年祭限定水洗長袖', 
+        size: currentSize, 
+        qty: qty, 
+        price: 450 
+      });
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      
+      // 更新介面
+      updateCartCount();
+      document.getElementById('miniSize').textContent = `(尺寸: ${currentSize} / 數量: ${qty})`;
+      document.getElementById('miniCart').style.display = 'flex';
+    });
+
+    // 頁面載入時初始化
+    updateCartCount();
     // 圖片切換邏輯
     function switchImage(src, element) {
       const mainImg = document.getElementById('mainDisplay');
