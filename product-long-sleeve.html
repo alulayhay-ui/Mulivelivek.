@@ -96,7 +96,7 @@
   </header>
 
   <main class="page">
-    <div class="breadcrumb"><a href="index.html">首頁</a> / <a href="products.html">所有商品</a> / <span>水洗長袖</span></div>
+    <div class="breadcrumb"><a href="index.html">首頁</a> / <a href="products.html">所有商品</a> / <span>限定提袋</span></div>
     
     <section class="product-shell">
       <div class="image-gallery">
@@ -109,7 +109,7 @@
             <img src="assets/pic/S__110592122.jpg" alt="產品正面照" onerror="this.onerror=null;this.src='https://placehold.co/400x400?text=正面照'">
           </div>
           <div class="thumb-item" onclick="switchImage('assets/pic/S__110592122.jpg', this)">
-            <img src="assets/pic/S__110592122.jpg" alt="產品背面照" onerror="this.onerror=null;this.src='https://placehold.co/400x400?text=背面照'">
+            <img src="assets/pic/雷1.jpg" alt="產品背面照" onerror="this.onerror=null;this.src='https://placehold.co/400x400?text=背面照'">
           </div>
           <!-- 範例：如果還有第三張圖片
           <div class="thumb-item" onclick="switchImage('assets/pic/第三張照片.jpg', this)">
@@ -119,18 +119,16 @@
         </div>
       </div>
       <div class="info-panel">
-      /* ... existing code ... */
-        <h1 class="title-main">初鹿部落年祭限定水洗長袖</h1>
-        <div class="price">NT$ 450</div>
+ 
+        <h1 class="title-main">初鹿部落收穫祭限定提袋</h1>
+        <div class="price">NT$ 200</div>
         <p style="color:var(--muted); font-size:0.95rem; line-height:1.6; margin:0;">結合初鹿大地的形狀與部落記憶，採用特殊水洗工藝，版型寬鬆舒適。</p>
         
         <div>
           <div class="label">尺寸</div>
           <div class="size-row">
-            <button class="size-btn active" onclick="setSize(this, 'M')">M</button>
-            <button class="size-btn" onclick="setSize(this, 'L')">L</button>
-            <button class="size-btn" onclick="setSize(this, 'XL')">XL</button>
-            <button class="size-btn" onclick="setSize(this, '2XL')">2XL</button>
+            <button class="size-btn active" onclick="setSize(this, '正常')">正常</button>
+      
           </div>
         </div>
 
@@ -161,7 +159,7 @@
   <div class="mini-cart-overlay" id="miniCart">
     <div class="mini-cart-panel">
       <h2 style="margin-top:0; font-size:1.3rem;">已加入購物車 ✔️</h2>
-      <p style="font-size:1rem; color:var(--muted); margin-bottom:20px;">初鹿部落年祭限定水洗長袖 <br><strong style="color:var(--text)" id="miniSize"></strong></p>
+      <p style="font-size:1rem; color:var(--muted); margin-bottom:20px;">初鹿部落收穫祭限定提袋 <br><strong style="color:var(--text)" id="miniSize"></strong></p>
       <a href="shipping.html" class="mini-cart-btn btn-checkout">快速結帳</a>
       <a href="cart.html" class="mini-cart-btn btn-view">查看購物車細節</a>
       <button style="width:100%; background:none; border:none; padding:16px; margin-top:8px; color:var(--muted); font-size:0.95rem; cursor:pointer; text-decoration:underline;" onclick="document.getElementById('miniCart').style.display='none'">繼續購物</button>
@@ -192,7 +190,7 @@
     
     document.getElementById('addToCartBtn').addEventListener('click', () => {
       const cart = loadCart();
-      cart.push({ name: '年祭限定水洗長袖', size: currentSize, qty: qty, price: 450 });
+      cart.push({ name: '收穫祭限定提袋', size: currentSize, qty: qty, price: 200 });
       saveCart(cart);
       document.getElementById('miniSize').textContent = `(尺寸: ${currentSize} / 數量: ${qty})`;
       document.getElementById('miniCart').style.display = 'flex';
@@ -222,9 +220,3 @@
   </script>
 </body>
 </html>
-```eof
-
-**主要變更點：**
-1. 將原本的 `.image-grid` 和 `.image-box` CSS 刪除，替換為 `.image-gallery` 相關的排版（包含主圖區塊 `.main-image-view` 和縮圖列表 `.thumb-list`）。
-2. HTML 結構調整，改為一個大圖顯示區，下方配上一排可點擊的縮圖。
-3. 在 `<script>` 區塊新增了 `switchImage()` 函式，用於處理點擊縮圖時，更換主圖以及改變縮圖邊框顏色的互動效果。同時加入了一點簡單的淡出淡入動畫，讓切換更平滑。
