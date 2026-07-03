@@ -2,619 +2,98 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>初鹿部落年祭限定水洗長袖｜MULIVELIVEK 限定款</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mulivelivek 初鹿部落｜所有商品</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <style>
-    :root{
-      --bg:#f5f5f5;
-      --card:#ffffff;
-      --border:#e3e2e2;
-      --text:#111111;
-      --muted:#777777;
-      --black:#000000;
-    }
-    *{box-sizing:border-box;}
-    html,body{
-      margin:0;
-      padding:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-    body{
-      min-height:100vh;
-    }
+    :root { --bg: #f7f3ec; --bg-soft: #fffdf8; --card: #ffffff; --border: #e3ddcf; --accent: #c58543; --accent-dark: #92572a; --text: #2f2415; --muted: #7b6d5c; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
+    a { color: inherit; text-decoration: none; }
 
-    /* 回首頁 + 返回上一頁 按鈕 */
-    .top-buttons{
-      position:fixed;
-      top:16px;
-      left:16px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      z-index:300;
-    }
-    .top-btn{
-      padding:6px 12px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background:#fff;
-      color:#333;
-      font-size:13px;
-      text-decoration:none;
-      box-shadow:0 4px 10px rgba(0,0,0,.05);
-      cursor:pointer;
-      transition:.15s;
-      text-align:left;
-    }
-    .top-btn:hover{
-      border-color:#000;
-      color:#000;
-    }
+    /* RWD Header */
+    .site-header { position: sticky; top: 0; z-index: 50; background: #ffffffee; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-mark { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: radial-gradient(circle at 30% 20%, #f5d7a1, #c58b4a); }
+    .brand-text-main { font-size: 1.1rem; font-weight: 600; }
+    .header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+    .header-nav a:hover, .header-nav a.active { color: var(--accent); }
+    .header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--bg-soft); font-size: 0.85rem; border: 1px solid var(--border); }
+    .header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
+    @media (max-width: 768px) { .brand { flex: 1; } .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; } .header-cart-pill { margin-left: auto; } }
 
-    .page{
-      max-width:1200px;
-      margin:32px auto;
-      padding:0 16px 40px;
-    }
+    /* Page */
+    .page { flex: 1; max-width: 1100px; margin: 0 auto; padding: 40px 16px; width: 100%; }
+    .page-title { font-size: 1.8rem; font-weight: 700; margin: 0 0 24px; color: var(--accent-dark); text-align: center; }
+    
+    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 900px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .product-grid { grid-template-columns: 1fr; gap: 16px; } }
 
-    .product-layout{
-      display:grid;
-      grid-template-columns:minmax(0,3fr) minmax(0,2.6fr);
-      gap:40px;
-      align-items:flex-start;
-    }
+    .product-card { background: var(--card); border-radius: 16px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s; }
+    .product-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+    .product-thumb { position: relative; padding-top: 100%; background: #e5ded1; }
+    .product-thumb-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; color: #4c4032; text-align: center; padding: 10px; }
+    .product-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+    .product-name { font-weight: 600; font-size: 1.1rem; margin-bottom: 8px; line-height: 1.4; }
+    .product-price { color: var(--accent-dark); font-weight: 700; font-size: 1.1rem; margin-top: auto; }
+    .btn-buy { display: block; text-align: center; margin-top: 16px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; font-size: 0.95rem; font-weight: 600; color: var(--muted); transition: 0.2s; }
+    .product-card:hover .btn-buy { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-    /* 圖片區 */
-    .gallery-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      grid-auto-rows:1fr;
-      gap:18px;
-    }
-    .gallery-item{
-      background:#d9d9d9;
-      border-radius:18px;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .gallery-item img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    /* 右側卡片 */
-    .info-card{
-      background:var(--card);
-      border-radius:24px;
-      padding:28px 28px 24px;
-      box-shadow:0 18px 50px rgba(0,0,0,.06);
-    }
-
-    .title-main{
-      font-size:24px;
-      font-weight:700;
-      line-height:1.4;
-      margin:0 0 4px;
-    }
-    .title-sub{
-      font-size:20px;
-      font-weight:700;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      margin:0 0 16px;
-    }
-    .price{
-      font-size:16px;
-      font-weight:700;
-      margin-bottom:18px;
-    }
-
-    .meta-list{
-      list-style:none;
-      padding:0;
-      margin:0 0 20px;
-      font-size:13px;
-      color:var(--muted);
-    }
-    .meta-list li{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      margin-bottom:6px;
-    }
-
-    .section-label{
-      font-size:13px;
-      margin:16px 0 8px;
-    }
-
-    .size-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    .size-btn{
-      min-width:56px;
-      padding:9px 10px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background:#fff;
-      font-size:13px;
-      cursor:pointer;
-      transition:.15s;
-    }
-    .size-btn:hover{border-color:#000;}
-    .size-btn.is-active{
-      background:#000;
-      color:#fff;
-      border-color:#000;
-    }
-
-    .select-like{
-      width:100%;
-      padding:9px 12px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      font-size:13px;
-      background:#fff;
-      text-align:left;
-    }
-
-    .qty-row{
-      display:inline-flex;
-      align-items:center;
-      border-radius:999px;
-      border:1px solid var(--border);
-      overflow:hidden;
-      margin-top:4px;
-    }
-    .qty-btn{
-      width:36px;
-      height:34px;
-      border:none;
-      background:#fff;
-      cursor:pointer;
-      font-size:18px;
-    }
-    .qty-input{
-      width:48px;
-      border:none;
-      text-align:center;
-      font-size:14px;
-      outline:none;
-    }
-
-    .add-to-cart-btn{
-      margin-top:22px;
-      width:100%;
-      border:none;
-      border-radius:999px;
-      height:46px;
-      background:var(--black);
-      color:#fff;
-      font-size:14px;
-      font-weight:600;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      cursor:pointer;
-    }
-
-    .share-row{
-      margin-top:10px;
-      font-size:12px;
-      color:var(--muted);
-      display:flex;
-      align-items:center;
-      gap:6px;
-    }
-
-    /* 右下角浮動購物車按鈕 */
-    .floating-cart{
-      position:fixed;
-      right:16px;
-      bottom:16px;
-      padding:10px 16px;
-      border-radius:999px;
-      background:#000;
-      color:#fff;
-      font-size:13px;
-      text-decoration:none;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      box-shadow:0 8px 18px rgba(0,0,0,.25);
-      z-index:250;
-    }
-
-    /* 右下角浮動購物車按鈕 */
-    .floating-cart{
-      position:fixed;
-      right:16px;
-      bottom:16px;
-      padding:10px 16px;
-      border-radius:999px;
-      background:#000;
-      color:#fff;
-      font-size:13px;
-      text-decoration:none;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      box-shadow:0 8px 18px rgba(0,0,0,.25);
-      z-index:250;
-    }
-    .floating-cart-count{
-      min-width:18px;
-      height:18px;
-      padding:0 6px;
-      border-radius:999px;
-      background:#fff;
-      color:#000;
-      font-size:11px;
-      display:none;
-      align-items:center;
-      justify-content:center;
-    }
-
-    /* 加入購物車後的小視窗 */
-    .mini-cart{
-      position:fixed;
-      top:80px;
-      right:24px;
-      width:280px;
-      background:#fff;
-      border-radius:18px;
-      box-shadow:0 18px 40px rgba(0,0,0,.18);
-      padding:14px 16px 16px;
-      font-size:13px;
-      z-index:400;
-      display:none; /* 預設隱藏 */
-    }
-    .mini-cart-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      font-weight:600;
-      margin-bottom:10px;
-    }
-    .mini-cart-header span{
-      font-size:13px;
-    }
-    .mini-cart-close{
-      border:none;
-      background:transparent;
-      font-size:18px;
-      line-height:1;
-      cursor:pointer;
-    }
-    .mini-cart-item{
-      display:flex;
-      gap:8px;
-      margin-bottom:12px;
-    }
-    .mini-cart-thumb{
-      width:52px;
-      height:52px;
-      border-radius:10px;
-      overflow:hidden;
-      background:#f3f3f3;
-      flex-shrink:0;
-    }
-    .mini-cart-thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-    .mini-cart-info{
-      flex:1;
-    }
-    .mini-cart-name{
-      font-size:13px;
-      font-weight:600;
-      margin-bottom:2px;
-      line-height:1.4;
-    }
-    .mini-cart-detail{
-      font-size:12px;
-      color:#777;
-    }
-    .mini-cart-btn{
-      width:100%;
-      border-radius:999px;
-      height:40px;
-      font-size:13px;
-      cursor:pointer;
-      border:none;
-      margin-bottom:8px;
-    }
-    .mini-cart-btn-ghost{
-      background:#fff;
-      border:1px solid #e3ddcf;
-      color:#2f2415;
-    }
-    .mini-cart-btn-primary{
-      background:#000;
-      color:#fff;
-    }
-    .mini-cart-link{
-      border:none;
-      background:transparent;
-      font-size:12px;
-      color:#555a96;
-      cursor:pointer;
-      text-decoration:underline;
-      display:block;
-      margin:0 auto;
-    }
-
-    @media(max-width:900px){
-      .product-layout{
-        grid-template-columns:1fr;
-        gap:24px;
-      }
-      .top-buttons{
-        top:10px;
-        left:10px;
-      }
-      .floating-cart{
-        right:10px;
-        bottom:10px;
-      }
-      /* 修正尺碼表圖片不超出 container */
-.product-size-img {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  display: block;
-  border-radius: 12px;
-  object-fit: contain;
-}
-
-/* 如果商品頁使用 grid，確保圖片區塊不被強制放大 */
-.product-size-block {
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-}
-    }
+    /* Footer */
+    .site-footer { border-top: 1px solid var(--border); padding: 30px 16px; background: #fffdf8; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    .footer-links { margin-bottom: 12px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .footer-links a:hover { color: var(--accent); }
   </style>
 </head>
 <body>
-
-    <!-- 左上：回到首頁 -->
-  <div class="top-buttons">
-    <a href="index.html" class="top-btn">← 回到首頁</a>
-  
-  </div>
-
-  <!-- 右下：浮動購物車按鈕 -->
-  <a href="cart.html" class="floating-cart">
-    🛒 購物車
-    <span id="cart-count-badge" class="floating-cart-count"></span>
-  </a>
-
- <!-- 已加入購物車的小視窗 -->
-  <div id="mini-cart" class="mini-cart">
-    <div class="mini-cart-header">
-      <span>✓ 已加入購物車</span>
-      <button type="button" id="mini-cart-close" class="mini-cart-close">×</button>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand"><div class="brand-mark"></div><div class="brand-text-main">Mulivelivek</div></div>
+      <nav class="header-nav">
+        <a href="index.html">首頁</a>
+        <a href="products.html" class="active">所有商品</a>
+        <a href="gallery.html">部落相簿</a>
+        <a href="order-tracking.html">訂單查詢</a>
+      </nav>
+      <a href="cart.html" class="header-cart-pill">購物車 <span class="header-cart-count" id="headerCartCount">0</span></a>
     </div>
+  </header>
 
-    <div class="mini-cart-item">
-      <div class="mini-cart-thumb">
-        <!-- 用正面圖當縮圖 -->
-        <img src="assets/pic/效果图1 (1).png" alt="商品縮圖">
-      </div>
-      <div class="mini-cart-info">
-        <div class="mini-cart-name">初鹿部落年祭限定水洗長袖｜MULIVELIVEK 限定款</div>
-        <div id="mini-cart-detail" class="mini-cart-detail">
-          <!-- 這裡會用 JS 更新 -->
-          M，淺灰水洗＋粉色字體
+  <main class="page">
+    <h1 class="page-title">所有商品</h1>
+    <div class="product-grid">
+      <a href="product-long-sleeve.html" class="product-card">
+        <div class="product-thumb">
+          <div class="product-thumb-inner">年祭限定水洗長袖<br>(預留圖片位置)</div>
         </div>
+        <div class="product-body">
+          <div class="product-name">初鹿部落年祭限定水洗長袖</div>
+          <div class="product-price">NT$ 450</div>
+          <span class="btn-buy">立即購買</span>
+        </div>
+      </a>
+      <div class="product-card" style="opacity:0.6;">
+        <div class="product-thumb"><div class="product-thumb-inner">Coming Soon</div></div>
+        <div class="product-body"><div class="product-name">敬請期待</div><div class="product-price">-</div></div>
+      </div>
+      <div class="product-card" style="opacity:0.6;">
+        <div class="product-thumb"><div class="product-thumb-inner">Coming Soon</div></div>
+        <div class="product-body"><div class="product-name">敬請期待</div><div class="product-price">-</div></div>
       </div>
     </div>
+  </main>
 
-    <button type="button" id="mini-cart-view" class="mini-cart-btn mini-cart-btn-ghost">
-      查看購物車 (<span id="mini-cart-count">1</span>)
-    </button>
-    <button type="button" id="mini-cart-checkout" class="mini-cart-btn mini-cart-btn-primary">
-      結帳
-    </button>
-    <button type="button" id="mini-cart-continue" class="mini-cart-link">
-      繼續購物
-    </button>
-  </div>
-
-  <div class="page">
-    <div class="product-layout">
-
-      <!-- 左：圖片區（你的圖路徑保留不變） -->
-      <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="assets/pic/效果图 (1).png" alt="正反面">
-        </div>
-        <div class="gallery-item">
-          <img src="assets/pic/效果图1 (1).png" alt="正面">
-        </div>
-        <div class="gallery-item">
-          <img src="assets/pic/效果图2 (1).png" alt="背面">
-        </div>
-        <div class="gallery-item">
-          <img src="assets/pic/尺寸2_工作區域 1.jpg" alt="尺碼表">
-        </div>
-      </div>
-
-      <!-- 右：商品資訊 -->
-      <aside class="info-card">
-        <h1 class="title-main">初鹿部落年祭限定水洗長袖</h1>
-        <h2 class="title-sub">MULIVELIVEK 限定款</h2>
-
-        <div class="price">NT$ 450</div>
-
-        <ul class="meta-list">
-          <li>🌏 Taiwan shipping / 臺灣本島寄送</li>
-          <li>🔒 Secure payments / 匯款付款</li>
-          <li>✅ Limited edition / 年祭限定周邊</li>
-        </ul>
-
-        <div class="section-label">大小</div>
-        <div class="size-row">
-          <button type="button" class="size-btn" data-size="M">M</button>
-          <button type="button" class="size-btn" data-size="L">L</button>
-          <button type="button" class="size-btn" data-size="XL">XL</button>
-          <button type="button" class="size-btn" data-size="2XL">2XL</button>
-          <button type="button" class="size-btn" data-size="3XL">3XL</button>
-        </div>
-
-        <div class="section-label">顏色</div>
-        <button class="select-like" disabled>淺灰水洗＋粉色字體</button>
-
-        <div class="section-label">數量</div>
-        <div class="qty-row">
-          <button type="button" class="qty-btn" id="qty-minus">-</button>
-          <input id="qty-input" class="qty-input" type="number" min="1" value="1" />
-          <button type="button" class="qty-btn" id="qty-plus">+</button>
-        </div>
-
-        <button class="add-to-cart-btn" id="add-to-cart-btn">加入購物車</button>
-
-        <div class="share-row">
-          🔗 分享給朋友一起穿
-        </div>
-      </aside>
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="index.html">首頁</a> <a href="order-tracking.html">訂單查詢</a> <a href="gallery.html">部落相簿</a>
     </div>
-  </div>
+    <div>© 2025 Mulivelivek 初鹿部落</div>
+  </footer>
 
-<script>
-  const CART_KEY = 'mulivelivek_cart';
-
-  function getCart(){
-    const raw = localStorage.getItem(CART_KEY);
-    return raw ? JSON.parse(raw) : [];
-  }
-  function saveCart(cart){
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
-  }
-
-  // ===== 浮動購物車 & 小視窗用 =====
-  const cartCountBadge   = document.getElementById('cart-count-badge');
-  const miniCart         = document.getElementById('mini-cart');
-  const miniCartClose    = document.getElementById('mini-cart-close');
-  const miniCartView     = document.getElementById('mini-cart-view');
-  const miniCartCheckout = document.getElementById('mini-cart-checkout');
-  const miniCartContinue = document.getElementById('mini-cart-continue');
-  const miniCartCountEl  = document.getElementById('mini-cart-count');
-  const miniCartDetailEl = document.getElementById('mini-cart-detail');
-
-  function updateCartBadges() {
-    const cart = getCart();
-    const totalQty = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
-
-    if (cartCountBadge) {
-      if (totalQty > 0) {
-        cartCountBadge.textContent = totalQty;
-        cartCountBadge.style.display = 'inline-flex';
-      } else {
-        cartCountBadge.style.display = 'none';
-      }
-    }
-    if (miniCartCountEl) {
-      miniCartCountEl.textContent = totalQty || 1;
-    }
-  }
-
-  function showMiniCart(size) {
-    if (miniCartDetailEl) {
-      miniCartDetailEl.textContent = `${size}，淺灰水洗＋粉色字體`;
-    }
-    if (miniCart) {
-      miniCart.style.display = 'block';
-    }
-  }
-
-  // 小視窗按鈕事件
-  if (miniCartClose) {
-    miniCartClose.addEventListener('click', () => {
-      miniCart.style.display = 'none';
-    });
-  }
-  if (miniCartContinue) {
-    miniCartContinue.addEventListener('click', () => {
-      miniCart.style.display = 'none';
-    });
-  }
-  if (miniCartView) {
-    miniCartView.addEventListener('click', () => {
-      window.location.href = 'cart.html';
-    });
-  }
-  if (miniCartCheckout) {
-    miniCartCheckout.addEventListener('click', () => {
-      window.location.href = 'checkout.html';
-    });
-  }
-
-  // ===== 尺寸選擇 =====
-  let selectedSize = null;
-  const sizeBtns = document.querySelectorAll('.size-btn');
-  sizeBtns.forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      selectedSize = btn.dataset.size;
-      sizeBtns.forEach(b=>b.classList.remove('is-active'));
-      btn.classList.add('is-active');
-    });
-  });
-
-  // 數量 + / -
-  const qty = document.getElementById('qty-input');
-  document.getElementById('qty-minus').onclick = () => {
-    qty.value = Math.max(1, (Number(qty.value) || 1) - 1);
-  };
-  document.getElementById('qty-plus').onclick = () => {
-    qty.value = (Number(qty.value) || 1) + 1;
-  };
-
-  // 加入購物車
-  document.getElementById('add-to-cart-btn').onclick = () => {
-    if(!selectedSize){
-      alert("請先選擇尺寸 🙏");
-      return;
-    }
-    const q = Math.max(1, Number(qty.value) || 1);
-
-    const cart = getCart();
-    const id = 'longsleeve-2025';
-    const exist = cart.find(item => item.id === id && item.size === selectedSize);
-
-    if(exist){
-      exist.qty += q;
-    }else{
-      cart.push({
-        id,
-        name:'初鹿部落年祭限定水洗長袖｜MULIVELIVEK 限定款',
-        price:450,
-        size:selectedSize,
-        color:'淺灰水洗＋粉色字體',
-        qty:q
-      });
-    }
-    saveCart(cart);
-
-    // 更新數量 & 顯示「已加入購物車」小視窗
-    updateCartBadges();
-    showMiniCart(selectedSize);
-  };
-
-  // 載入頁面時也先更新一次數量（如果之前就有放東西）
-  updateCartBadges();
-</script>
-
+  <script>
+    function loadCart() { try { return JSON.parse(localStorage.getItem('mulivelivekCart') || '[]'); } catch { return []; } }
+    document.getElementById('headerCartCount').textContent = loadCart().reduce((s, i) => s + (i.quantity||0), 0);
+  </script>
 </body>
 </html>
