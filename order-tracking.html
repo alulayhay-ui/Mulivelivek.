@@ -15,6 +15,7 @@
     .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
     .brand-text-main { font-size: 1.1rem; font-weight: 600; }
     .header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+    .header-nav a:hover { color: var(--accent); }
     @media (max-width: 768px) { .header-inner{padding: 10px 16px;} .brand { flex: 1; } .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; } }
 
     /* Page Content */
@@ -38,7 +39,7 @@
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <div class="brand"><div class="brand-text-main">Mulivelivek</div></div>
+      <div class="brand"><a href="index.html" class="brand-text-main">Mulivelivek</a></div>
       <nav class="header-nav"><a href="index.html">首頁</a><a href="products.html">所有商品</a><a href="gallery.html">相簿</a><a href="order-tracking.html" style="color:#c58543">訂單查詢</a></nav>
     </div>
   </header>
