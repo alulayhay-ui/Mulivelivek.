@@ -1,107 +1,336 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
+
 <head>
+
   <meta charset="UTF-8" />
+
   <title>Mulivelivek 初鹿部落｜購物車</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
   <style>
+
     :root { --bg: #f7f3ec; --bg-soft: #fffdf8; --card: #ffffff; --border: #e3ddcf; --accent: #c58543; --accent-dark: #92572a; --text: #2f2415; --muted: #7b6d5c; }
+
     * { box-sizing: border-box; }
+
     body { margin: 0; min-height: 100vh; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column;}
+
     a { color: inherit; text-decoration: none; }
 
-    /* 修正：導覽列改為適合亮色背景的深色文字 */
-    .site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); color: var(--text); }
-    .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-mark { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: radial-gradient(circle at 30% 20%, #f8e1b4, #c98c46); }
-    .brand-text-main { font-size: 1.1rem; font-weight: 600; }
-    .header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; color: var(--muted); }
-    .header-nav a:hover { color: var(--accent); }
-    .header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--bg-soft); font-size: 0.85rem; border: 1px solid var(--border); color: var(--text); }
-    .header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
 
-    /* Cart Page Layout */
+
+    /* 統一版 Header (亮色底) */
+
+    /* 導覽列通用樣式 */
+
+.site-header { position: sticky; top: 0; z-index: 50; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; }
+
+.header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+
+.brand { display: flex; align-items: center; gap: 10px; }
+
+.brand-mark { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: radial-gradient(circle at 30% 20%, #f8e1b4, #c98c46); }
+
+.brand-text-main { font-size: 1.1rem; font-weight: 600; color: #fff; }
+
+.brand-text-sub { font-size: 0.75rem; color: #f5e3bf; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; }
+
+.header-nav a { color: #fff; text-decoration: none; }
+
+.header-nav a:hover { color: #f5e3bf; }
+
+.header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.4); font-size: 0.85rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; color: #fff; }
+
+.header-cart-pill:hover { background: rgba(0,0,0,0.6); }
+
+.header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: #c58543; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
+
+
+
+@media (max-width: 768px) {
+
+  .header-inner { padding: 10px 16px; }
+
+  .brand { flex: 1; }
+
+  .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; }
+
+  .header-cart-pill { margin-left: auto; }
+
+}
+
+    /* Cart Page RWD */
+
     .page { flex: 1; max-width: 900px; margin: 0 auto; padding: 30px 16px; width: 100%; }
+
     .page-title { font-size: 1.8rem; margin: 0 0 20px; font-weight: 700; color: var(--accent-dark); }
+
     .cart-shell { background: var(--card); border-radius: 20px; border: 1px solid var(--border); padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+
     
+
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px dashed var(--border); gap: 16px; }
-    .btn-remove { border: none; background: #fffdf8; color: #c43c3c; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; }
+
+    .cart-item:last-child { border-bottom: none; }
+
+    .item-info { flex: 1; }
+
+    .item-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 6px; }
+
+    .item-meta { font-size: 0.9rem; color: var(--muted); }
+
+    .item-price { font-size: 1.1rem; font-weight: 700; color: var(--accent-dark); white-space: nowrap; }
+
+    .btn-remove { border: none; background: #fffdf8; color: #c43c3c; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; flex-shrink: 0; transition: 0.2s; }
+
+    .btn-remove:hover { background: #fce8e8; }
+
+
+
+    .actions { margin-top: 30px; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--border); padding-top: 24px; }
+
+    .total-area { text-align: right; }
+
+    .total-text { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+
     
-    .btn { padding: 14px 28px; background: var(--accent); color: #fff; border-radius: 99px; border: none; font-weight: 600; cursor: pointer; }
+
+    .btn { padding: 14px 28px; background: var(--accent); color: #fff; border-radius: 99px; border: none; font-size: 1.05rem; font-weight: 600; cursor: pointer; text-align: center; display: inline-block; transition: 0.2s; }
+
+    .btn:hover { background: var(--accent-dark); }
+
     .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+
+    .btn-outline:hover { border-color: var(--accent); }
+
+
+
+    @media (max-width: 600px) {
+
+      .cart-shell { padding: 16px; }
+
+      .cart-item { flex-direction: column; align-items: flex-start; position: relative; padding: 16px 0; }
+
+      .btn-remove { position: absolute; top: 16px; right: 0; background: transparent; }
+
+      .item-price { align-self: flex-end; margin-top: 8px; font-size: 1.2rem; }
+
+      .actions { flex-direction: column-reverse; gap: 20px; align-items: stretch; }
+
+      .total-area { text-align: center; }
+
+      .total-text { font-size: 1.5rem; }
+
+      .btn { width: 100%; }
+
+    }
+
   </style>
+
 </head>
+
 <body>
+
+  <!-- 統一 Header -->
+
   <header class="site-header">
-    <div class="header-inner">
-      <!-- 修正：用 <a> 包住 Logo 讓它能點擊回首頁 -->
-      <a href="index.html" class="brand">
-        <div class="brand-mark"></div>
+
+  <div class="header-inner">
+
+    <div class="brand">
+
+      <div class="brand-mark"></div>
+
+      <div class="brand-text">
+
         <div class="brand-text-main">Mulivelivek 初鹿部落</div>
-      </a>
-      <nav class="header-nav">
-        <a href="index.html">首頁</a>
-        <a href="products.html">所有商品</a>
-        <a href="gallery.html">部落相簿</a>
-        <a href="order-tracking.html">訂單查詢</a>
-      </nav>
-      <a href="cart.html" class="header-cart-pill">
-        購物車 <span class="header-cart-count" id="headerCartCount">0</span>
-      </a>
+
+        <div class="brand-text-sub">'inavayan</div>
+
+      </div>
+
     </div>
-  </header>
+
+    <nav class="header-nav">
+
+      <a href="index.html">首頁</a>
+
+      <a href="products.html">所有商品</a>
+
+      <a href="gallery.html">部落相簿</a>
+
+      <a href="order-tracking.html">訂單查詢</a>
+
+    </nav>
+
+    <a href="cart.html" class="header-cart-pill">
+
+      購物車 <span class="header-cart-count" id="headerCartCount">0</span>
+
+    </a>
+
+  </div>
+
+</header>
+
+
 
   <main class="page">
+
     <h1 class="page-title">您的購物車</h1>
+
     <div class="cart-shell">
+
       <div id="cartList"></div>
+
+      
+
       <div class="actions">
+
+        <!-- 連回商品頁 -->
+
         <a href="products.html" class="btn btn-outline">繼續購物</a>
+
         <div class="total-area">
+
           <div class="total-text">總計: <span id="cartTotal" style="color:var(--accent-dark);">NT$ 0</span></div>
-          <a href="checkout.html" class="btn" id="checkoutBtn">下一步，前往結帳</a>
+
+          <!-- 確認導向最新的 checkout.html -->
+
+          <a href="checkout.html" class="btn" id="checkoutBtn" style="text-decoration:none; display:inline-block;">下一步，前往結帳</a>
+
         </div>
+
       </div>
+
     </div>
+
   </main>
 
+
+
   <script>
+
+    // 修正了儲存 Key 與商品頁/結帳頁同步
+
     const CART_KEY = 'mulivelivek_cart';
+
+    function loadCart() { try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; } }
+
+    
+
     function render() {
-      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+
+      const cart = loadCart();
+
       const list = document.getElementById('cartList');
+
       const totalEl = document.getElementById('cartTotal');
+
+      const checkoutBtn = document.getElementById('checkoutBtn');
+
       const headerCount = document.getElementById('headerCartCount');
+
       
-      let totalQty = 0, total = 0, html = '';
+
+      let totalQty = 0;
+
       
+
+      if(cart.length === 0) {
+
+        list.innerHTML = '<div style="text-align:center; padding:40px 20px; color:var(--muted); font-size:1.1rem;">您的購物車空空的，去逛逛吧！</div>';
+
+        totalEl.textContent = 'NT$ 0';
+
+        checkoutBtn.style.opacity = '0.5';
+
+        checkoutBtn.style.pointerEvents = 'none';
+
+        headerCount.textContent = '0';
+
+        return;
+
+      }
+
+      
+
+      let html = '', total = 0;
+
       cart.forEach((item, idx) => {
-        const qty = parseInt(item.qty) || 1;
-        const sub = (item.price || 0) * qty;
+
+        // 修正屬性名稱：支援 item.name 與 item.qty
+
+        const itemName = item.name || item.style || '商品';
+
+        const itemQty = item.qty || item.quantity || 1;
+
+        const sub = (item.price || 0) * itemQty; 
+
         total += sub;
-        totalQty += qty;
+
+        totalQty += itemQty;
+
+        
+
         html += `
+
           <div class="cart-item">
-            <div>${item.name || '商品'} (尺寸:${item.size || 'F'})</div>
-            <div>NT$ ${sub}</div>
+
+            <div class="item-info">
+
+              <div class="item-title">${itemName}</div>
+
+              <div class="item-meta">尺寸: <strong>${item.size || 'F'}</strong> ｜ 數量: <strong>${itemQty}</strong></div>
+
+            </div>
+
+            <div class="item-price">NT$ ${sub}</div>
+
             <button class="btn-remove" onclick="removeItem(${idx})">×</button>
+
           </div>
+
         `;
+
       });
-      list.innerHTML = html || '購物車是空的';
+
+      list.innerHTML = html; 
+
       totalEl.textContent = 'NT$ ' + total;
+
       headerCount.textContent = totalQty;
+
+      checkoutBtn.style.opacity = '1';
+
+      checkoutBtn.style.pointerEvents = 'auto';
+
     }
 
+
+
     function removeItem(idx) {
-      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-      cart.splice(idx, 1);
-      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+
+      const cart = loadCart(); cart.splice(idx, 1);
+
+      localStorage.setItem(CART_KEY, JSON.stringify(cart)); 
+
       render();
+
     }
+
+
+
     render();
+
   </script>
+
 </body>
-</html>
+
+</html> 
+
