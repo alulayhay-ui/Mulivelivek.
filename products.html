@@ -109,12 +109,13 @@
   <footer class="site-footer">
     <div>© 2025 Mulivelivek 初鹿部落</div>
   </footer>
-
- <script>
+  
+<script>
+    // 統一讀取與 Header 更新邏輯
     const CART_KEY = 'mulivelivek_cart';
     function updateCartCount() {
       const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-      const count = cart.reduce((s, i) => s + (i.qty || 0), 0);
+      const count = cart.reduce((s, i) => s + (parseInt(i.qty) || 0), 0);
       document.getElementById('headerCartCount').textContent = count;
     }
     updateCartCount();
