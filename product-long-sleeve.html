@@ -12,18 +12,26 @@
     a { color: inherit; text-decoration: none; }
 
     /* RWD Header */
-    .site-header { position: sticky; top: 0; z-index: 50; background: #ffffffee; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
-    .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-mark { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: radial-gradient(circle at 30% 20%, #f5d7a1, #c58b4a); }
-    .brand-text-main { font-size: 1.1rem; font-weight: 600; }
-    .header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; color: var(--muted); }
-    .header-nav a:hover { color: var(--accent); }
-    .header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--bg-soft); font-size: 0.85rem; border: 1px solid var(--border); transition: 0.2s; }
-    .header-cart-pill:hover { background: #f0e7d9; }
-    .header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
-    @media (max-width: 768px) { .brand { flex: 1; } .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; } .header-cart-pill { margin-left: auto; } }
+/* 導覽列通用樣式 */
+.site-header { position: sticky; top: 0; z-index: 50; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; }
+.header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-mark { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: radial-gradient(circle at 30% 20%, #f8e1b4, #c98c46); }
+.brand-text-main { font-size: 1.1rem; font-weight: 600; color: #fff; }
+.brand-text-sub { font-size: 0.75rem; color: #f5e3bf; letter-spacing: 0.1em; text-transform: uppercase; }
+.header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; }
+.header-nav a { color: #fff; text-decoration: none; }
+.header-nav a:hover { color: #f5e3bf; }
+.header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.4); font-size: 0.85rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; color: #fff; }
+.header-cart-pill:hover { background: rgba(0,0,0,0.6); }
+.header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: #c58543; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
 
+@media (max-width: 768px) {
+  .header-inner { padding: 10px 16px; }
+  .brand { flex: 1; }
+  .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; }
+  .header-cart-pill { margin-left: auto; }
+}
     /* Product Page */
     .page { max-width: 1100px; margin: 0 auto; padding: 30px 16px 60px; }
     .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; }
