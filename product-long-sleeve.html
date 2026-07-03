@@ -18,14 +18,14 @@
     .brand-text-main { font-size: 1.1rem; font-weight: 600; }
     .header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; color: var(--muted); }
     .header-nav a:hover { color: var(--accent); }
-    .header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--bg-soft); font-size: 0.85rem; border: 1px solid var(--border); }
+    .header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--bg-soft); font-size: 0.85rem; border: 1px solid var(--border); transition: 0.2s; }
+    .header-cart-pill:hover { background: #f0e7d9; }
     .header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
-    @media (max-width: 768px) { .brand { flex: 1; } .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; } .header-cart-pill { margin-left: auto; } }
-
+    
     /* Product Page */
     .page { max-width: 1100px; margin: 0 auto; padding: 30px 16px 60px; }
     .product-shell { background: var(--card); border-radius: 20px; padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; border: 1px solid var(--border); }
-    @media (max-width: 800px) { .product-shell { grid-template-columns: 1fr; } }
+    @media (max-width: 800px) { .product-shell { grid-template-columns: 1fr; padding: 20px; } }
     
     /* 圖片切換系統 */
     .image-gallery { display: flex; flex-direction: column; gap: 12px; }
@@ -36,14 +36,31 @@
     .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
     .thumb-item.active { border-color: var(--accent); }
 
+    /* 資訊面板 */
     .info-panel { display: flex; flex-direction: column; gap: 16px; }
     .title-main { font-size: 1.8rem; font-weight: 700; margin: 0; }
     .price { font-size: 1.3rem; font-weight: 700; color: var(--accent-dark); }
     .label { font-size: 0.9rem; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
     .size-row { display: flex; gap: 10px; }
-    .size-btn { padding: 10px 18px; border: 1px solid var(--border); border-radius: 10px; background: #fff; cursor: pointer; }
+    .size-btn { padding: 10px 18px; border: 1px solid var(--border); border-radius: 10px; background: #fff; cursor: pointer; transition: 0.2s; }
     .size-btn.active { background: var(--black); color: #fff; }
+    
+    .qty-row { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+    .qty-btn { width: 44px; height: 44px; background: #fffdf8; border: none; cursor: pointer; }
+    .qty-display { width: 50px; height: 44px; display: flex; align-items: center; justify-content: center; font-weight: 600; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    
     .btn-add { background: var(--black); color: #fff; width: 100%; padding: 16px; border-radius: 99px; font-weight: 600; border: none; cursor: pointer; margin-top: 10px; }
+    
+    /* AI Styling */
+    .ai-styling-section { margin-top: 40px; padding: 24px; background: #fdfaf5; border: 1px dashed var(--accent); border-radius: 20px; }
+    .ai-styling-input-group { display: flex; gap: 10px; margin-top: 16px; }
+    .ai-style-input { flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 12px; }
+    .ai-style-btn { padding: 12px 20px; background: var(--accent); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+    .ai-style-result { margin-top: 20px; padding: 16px; background: #fff; border-radius: 12px; border: 1px solid var(--border); display: none; }
+
+    /* Cart Overlay */
+    .mini-cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; justify-content: center; align-items: center; z-index: 100; padding: 16px; }
+    .mini-cart-panel { width: 100%; max-width: 400px; background: #fff; padding: 24px; border-radius: 20px; }
   </style>
 </head>
 <body>
@@ -62,27 +79,79 @@
           <img id="mainDisplay" src="assets/pic/S__110592122.jpg" alt="產品主圖">
         </div>
         <div class="thumb-list">
-          <!-- 您可以在下方增加更多縮圖，src 改為不同的圖片路徑 -->
+          <!-- 縮圖區塊：未來若有多張圖，請在此增加 div -->
           <div class="thumb-item active" onclick="showImage('assets/pic/S__110592122.jpg', this)"><img src="assets/pic/S__110592122.jpg"></div>
-          <div class="thumb-item" onclick="showImage('assets/pic/S__110592122.jpg', this)"><img src="assets/pic/S__110592122.jpg"></div>
         </div>
       </div>
       
       <div class="info-panel">
         <h1 class="title-main">初鹿部落收穫祭限定提袋</h1>
         <div class="price">NT$ 200</div>
+        
+        <div class="label">尺寸</div>
+        <div class="size-row">
+            <button class="size-btn active" onclick="setSize(this, 'M')">M</button>
+            <button class="size-btn" onclick="setSize(this, 'L')">L</button>
+        </div>
+
+        <div class="label">數量</div>
+        <div class="qty-row">
+            <button class="qty-btn" onclick="updateQty(-1)">−</button>
+            <div class="qty-display" id="qtyDisplay">1</div>
+            <button class="qty-btn" onclick="updateQty(1)">＋</button>
+        </div>
+
         <button class="btn-add" id="addToCartBtn">加入購物車</button>
       </div>
     </section>
+
+    <!-- AI 穿搭顧問 -->
+    <section class="ai-styling-section">
+      <h3>✨ AI 穿搭顧問</h3>
+      <div class="ai-styling-input-group">
+        <input type="text" class="ai-style-input" id="styleInput" placeholder="想去哪裡？我幫你建議穿搭...">
+        <button class="ai-style-btn" id="styleBtn">建議</button>
+      </div>
+      <div class="ai-style-result" id="styleResult"></div>
+    </section>
   </main>
 
+  <div class="mini-cart-overlay" id="miniCart">
+    <div class="mini-cart-panel">
+      <h2>已加入購物車 ✔️</h2>
+      <button onclick="document.getElementById('miniCart').style.display='none'">繼續購物</button>
+    </div>
+  </div>
+
   <script>
+    // 圖片切換
     function showImage(src, el) {
       document.getElementById('mainDisplay').src = src;
       document.querySelectorAll('.thumb-item').forEach(i => i.classList.remove('active'));
       el.classList.add('active');
     }
-    // 其他原有的購物車與 AI 邏輯保持不變...
+
+    // 購物車邏輯
+    let currentSize = 'M', qty = 1;
+    function setSize(btn, size) { document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentSize = size; }
+    function updateQty(n) { if(qty + n > 0) { qty += n; document.getElementById('qtyDisplay').textContent = qty; } }
+    function loadCart() { try { return JSON.parse(localStorage.getItem('mulivelivekCart') || '[]'); } catch { return []; } }
+    function saveCart(c) { localStorage.setItem('mulivelivekCart', JSON.stringify(c)); document.getElementById('headerCartCount').textContent = c.reduce((s,i)=>s+(i.quantity||0),0); }
+    
+    document.getElementById('addToCartBtn').addEventListener('click', () => {
+      const cart = loadCart();
+      cart.push({ style: '年祭限定水洗長袖', size: currentSize, quantity: qty, price: 450 });
+      saveCart(cart);
+      document.getElementById('miniCart').style.display = 'flex';
+    });
+
+    // AI 邏輯
+    const styleBtn = document.getElementById('styleBtn'), styleInput = document.getElementById('styleInput'), styleResult = document.getElementById('styleResult');
+    styleBtn.addEventListener('click', async () => {
+        styleResult.style.display = 'block';
+        styleResult.textContent = "AI 建議生成中...";
+        // API 呼叫邏輯...
+    });
   </script>
 </body>
 </html>
