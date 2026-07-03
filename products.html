@@ -92,10 +92,14 @@
     <div>© 2025 Mulivelivek 初鹿部落</div>
   </footer>
 
-  <script>
-    const CART_KEY = 'mulivelivekCart';
-    function loadCart() { try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; } }
-    document.getElementById('headerCartCount').textContent = loadCart().reduce((s, i) => s + (i.quantity||0), 0);
+ <script>
+    const CART_KEY = 'mulivelivek_cart';
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+      const count = cart.reduce((s, i) => s + (i.qty || 0), 0);
+      document.getElementById('headerCartCount').textContent = count;
+    }
+    updateCartCount();
   </script>
 </body>
 </html>
