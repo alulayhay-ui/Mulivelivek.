@@ -5,33 +5,31 @@
   <title>結帳｜Mulivelivek 初鹿部落</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <style>
-    :root { --bg: #f7f3ec; --card: #ffffff; --border: #e3ddcf; --accent: #c58543; --accent-dark: #92572a; --text: #2f2415; --muted: #7b6d5c; }
+    :root { --bg: #f7f3ec; --bg-soft: #fffdf8; --card: #ffffff; --border: #e3ddcf; --accent: #c58543; --accent-dark: #92572a; --text: #2f2415; --muted: #7b6d5c; }
     * { box-sizing: border-box; }
     body { margin: 0; min-height: 100vh; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
     a { color: inherit; text-decoration: none; }
 
-      /* 與首頁統一的 Header 風格 */
-   /* 導覽列通用樣式 */
-.site-header { position: sticky; top: 0; z-index: 50; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; }
-.header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-.brand { display: flex; align-items: center; gap: 10px; }
-.brand-mark { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: radial-gradient(circle at 30% 20%, #f8e1b4, #c98c46); }
-.brand-text-main { font-size: 1.1rem; font-weight: 600; color: #fff; }
-.brand-text-sub { font-size: 0.75rem; color: #f5e3bf; letter-spacing: 0.1em; text-transform: uppercase; }
-.header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; }
-.header-nav a { color: #fff; text-decoration: none; }
-.header-nav a:hover { color: #f5e3bf; }
-.header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.4); font-size: 0.85rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; color: #fff; }
-.header-cart-pill:hover { background: rgba(0,0,0,0.6); }
-.header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: #c58543; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
+    .site-header { position: sticky; top: 0; z-index: 50; background: #6c757d; border-bottom: 1px solid #5a6268; color: #fff; }
+    .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-mark { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: radial-gradient(circle at 30% 20%, #f8e1b4, #c98c46); }
+    .brand-text-main { font-size: 1.1rem; font-weight: 600; color: #fff; }
+    .brand-text-sub { font-size: 0.75rem; color: #f5e3bf; letter-spacing: 0.1em; text-transform: uppercase; }
+    .header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; }
+    .header-nav a { color: #fff; text-decoration: none; }
+    .header-nav a:hover { color: #f5e3bf; }
+    .header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.2); font-size: 0.85rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; color: #fff; }
+    .header-cart-pill:hover { background: rgba(0,0,0,0.4); }
+    .header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: #c58543; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
 
-@media (max-width: 768px) {
-  .header-inner { padding: 10px 16px; }
-  .brand { flex: 1; }
-  .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; }
-  .header-cart-pill { margin-left: auto; }
-}
-    /* 表單樣式 */
+    @media (max-width: 768px) {
+      .header-inner { padding: 10px 16px; }
+      .brand { flex: 1; }
+      .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; }
+      .header-cart-pill { margin-left: auto; }
+    }
+    
     .wrap { max-width: 500px; margin: 40px auto; padding: 0 16px; width: 100%; }
     .card { background: var(--card); border-radius: 20px; border: 1px solid var(--border); padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
     h1 { font-size: 1.5rem; margin-top: 0; color: var(--accent-dark); }
@@ -39,33 +37,48 @@
     input, textarea { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: #fffdf8; font-size: 1rem; }
     .btn-submit { width: 100%; padding: 16px; background: var(--text); color: #fff; border-radius: 99px; border: none; font-weight: 600; font-size: 1.1rem; cursor: pointer; margin-top: 24px; transition: 0.2s; }
     .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+
+    .remit-info { background: #fdfaf6; border: 1px solid var(--border); padding: 16px; border-radius: 12px; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.6; color: var(--text); }
+    .remit-info h3 { margin: 0 0 8px 0; font-size: 1rem; color: var(--accent-dark); }
+    
+    .order-summary { background: #fffdf8; border: 1px dashed var(--border); border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+    .summary-title { font-weight: 600; font-size: 1rem; color: var(--accent-dark); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .summary-item { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 8px; color: var(--text); }
+    .summary-item-name { flex: 1; line-height: 1.4; }
+    .summary-item-meta { color: var(--muted); font-size: 0.85rem; margin-left: 8px; display: inline-block; }
+    .summary-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; color: var(--accent-dark); margin-top: 12px; border-top: 1px solid var(--border); padding-top: 12px; }
   </style>
 </head>
 <body>
- <header class="site-header">
-  <div class="header-inner">
-    <div class="brand">
-      <div class="brand-mark"></div>
-      <div class="brand-text">
-        <div class="brand-text-main">Mulivelivek 初鹿部落</div>
-        <div class="brand-text-sub">'inavayan</div>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-text">
+          <div class="brand-text-main">Mulivelivek 初鹿部落</div>
+          <div class="brand-text-sub">'inavayan</div>
+        </div>
       </div>
+      <nav class="header-nav">
+        <a href="index.html">首頁</a>
+        <a href="products.html">所有商品</a>
+        <a href="gallery.html">部落相簿</a>
+        <a href="order-tracking.html">訂單查詢</a>
+      </nav>
+      <a href="cart.html" class="header-cart-pill">
+        購物車 <span class="header-cart-count" id="headerCartCount">0</span>
+      </a>
     </div>
-    <nav class="header-nav">
-      <a href="index.html">首頁</a>
-      <a href="products.html">所有商品</a>
-      <a href="gallery.html">部落相簿</a>
-      <a href="order-tracking.html">訂單查詢</a>
-    </nav>
-    <a href="cart.html" class="header-cart-pill">
-      購物車 <span class="header-cart-count" id="headerCartCount">0</span>
-    </a>
-  </div>
-</header>
+  </header>
 
- <main class="wrap">
+  <main class="wrap">
     <div class="card">
       <h1>確認結帳</h1>
+      
+      <!-- 訂單摘要區塊 (由 JS 渲染) -->
+      <div id="orderSummary" class="order-summary"></div>
+      
+      <!-- 匯款資訊區塊 -->
       <div class="remit-info">
         <h3>💰 匯款資訊</h3>
         銀行代碼：823（將來銀行）<br>
@@ -89,18 +102,61 @@
   </main>
 
   <script>
+    // 變數設定
     const CART_KEY = 'mulivelivek_cart';
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwtTn76uAXjMp5ZoakeNQpuLNqQ-AWpMkha9DYC3C80a3KfAQ7XPESKDpNH98t-CLjP/exec'; 
 
-    // 初始化購物車數字
+    // 取得購物車資料並初始化右上角數字
     const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
     document.getElementById('headerCartCount').textContent = cart.reduce((s, i) => s + (parseInt(i.qty) || 0), 0);
 
-    // 表單送出
+    // 渲染訂單摘要
+    function renderOrderSummary() {
+      const summaryContainer = document.getElementById('orderSummary');
+      if (cart.length === 0) {
+        summaryContainer.innerHTML = '<div style="text-align:center; color: var(--muted);">購物車目前是空的</div>';
+        return;
+      }
+
+      let html = '<div class="summary-title">🛍️ 訂單摘要</div>';
+      let total = 0;
+
+      cart.forEach(item => {
+        const qty = parseInt(item.qty) || 1;
+        // 如果沒有價格屬性，預設帶入商品單價 450
+        const price = parseInt(item.price) || 450; 
+        const subtotal = price * qty;
+        total += subtotal;
+
+        html += `
+          <div class="summary-item">
+            <div class="summary-item-name">
+              ${item.name || '商品'}
+              <span class="summary-item-meta">(${item.size || 'F'}) x ${qty}</span>
+            </div>
+            <div>NT$ ${subtotal}</div>
+          </div>
+        `;
+      });
+
+      html += `
+        <div class="summary-total">
+          <span>總計金額</span>
+          <span>NT$ ${total}</span>
+        </div>
+      `;
+      summaryContainer.innerHTML = html;
+    }
+
+    // 執行渲染
+    renderOrderSummary();
+
+    // 表單送出事件
     document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
-      btn.disabled = true; btn.textContent = '訂單處理中...';
+      btn.disabled = true; 
+      btn.textContent = '訂單處理中...';
 
       const itemsString = cart.map(i => `${i.name || '商品'}(${i.size || '無'})x${i.qty || 1}`).join('；');
 
@@ -116,7 +172,7 @@
       try {
         await fetch(WEB_APP_URL, {
           method: 'POST',
-          mode: 'no-cors', // 確保跨域請求正確
+          mode: 'no-cors',
           body: JSON.stringify(data)
         });
         alert('訂單已送出，感謝您的購買！');
@@ -124,7 +180,8 @@
         window.location.href = 'index.html';
       } catch (err) {
         alert('送出失敗，請檢查網路連線。');
-        btn.disabled = false; btn.textContent = '確認送出訂單';
+        btn.disabled = false; 
+        btn.textContent = '確認送出訂單';
       }
     });
   </script>
