@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mulivelivek 初鹿部落｜訂單查詢</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <style>
+    :root { --bg: #f7f3ec; --card: #ffffff; --border: #e3ddcf; --accent: #c58543; --text: #2f2415; --muted: #7b6d5c; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Header RWD */
+    .site-header { position: sticky; top: 0; z-index: 50; background: #ffffffee; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .brand-text-main { font-size: 1.1rem; font-weight: 600; }
+    .header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+    @media (max-width: 768px) { .header-inner{padding: 10px 16px;} .brand { flex: 1; } .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; } }
+
+    /* Page Content */
+    .page-content { flex: 1; display: flex; align-items: center; justify-content: center; padding: 30px 16px; }
+    .tracking-card { max-width: 450px; width: 100%; background: var(--card); border-radius: 20px; border: 1px solid var(--border); padding: 32px 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    @media (max-width: 500px) { .tracking-card { padding: 24px 16px; border-radius: 16px; } }
+
+    .form-input { width: 100%; padding: 14px; margin-bottom: 16px; border-radius: 12px; border: 1px solid var(--border); font-size: 1rem; outline: none; background: #fffdf9; transition: 0.2s; }
+    .form-input:focus { border-color: var(--accent); background: #fff; }
+    .btn { width: 100%; padding: 14px; border-radius: 99px; background: var(--accent); color: #fff; border: none; font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: 0.2s; }
+    .btn:hover { background: #a66b30; }
+    
+    .result-area { margin-top: 24px; padding-top: 24px; border-top: 1px dashed var(--border); display: none; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(5px)} to{opacity:1; transform:translateY(0)} }
+    .status-badge { display: inline-block; padding: 6px 12px; background: #eef7ee; color: #3c7a3c; border-radius: 8px; font-weight: 700; font-size: 0.95rem; margin-bottom: 16px; }
+    .info-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem; }
+    .info-row span { color: var(--muted); }
+    .info-row strong { text-align: right; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand"><div class="brand-text-main">Mulivelivek</div></div>
+      <nav class="header-nav"><a href="index.html">首頁</a><a href="products.html">所有商品</a><a href="gallery.html">相簿</a><a href="order-tracking.html" style="color:#c58543">訂單查詢</a></nav>
+    </div>
+  </header>
+
+  <main class="page-content">
+    <div class="tracking-card">
+      <h1 style="text-align:center; margin-top:0; font-size:1.6rem; color:#92572a;">訂單進度查詢</h1>
+      <p style="text-align:center; color:#777; margin-bottom:24px; font-size:0.95rem; line-height:1.5;">請輸入預購時填寫的姓名與電話，<br>隨時掌握商品動態。</p>
+      
+      <form id="trackingForm">
+        <input type="text" class="form-input" placeholder="購買人真實姓名" required>
+        <input type="tel" class="form-input" placeholder="聯絡電話 (09xx...)" required>
+        <button type="submit" class="btn">立即查詢</button>
+      </form>
+
+      <div class="result-area" id="resultArea">
+        <div class="status-badge">🟢 已確認匯款，準備中</div>
+        <div class="info-row"><span>訂單編號</span><strong>MU-0824</strong></div>
+        <div class="info-row"><span>商品明細</span><strong>水洗長袖 (M) x 1</strong></div>
+        <div class="info-row"><span>取貨方式</span><strong>7-11 店到店</strong></div>
+        <p style="font-size:0.85rem; color:var(--muted); margin-top:20px; text-align:center;">商品出貨後會以簡訊通知，謝謝您的耐心等候。</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('trackingForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = document.querySelector('.btn');
+      btn.textContent = '資料搜尋中...'; btn.style.opacity = '0.7';
+      setTimeout(() => {
+        btn.textContent = '重新查詢'; btn.style.opacity = '1';
+        document.getElementById('resultArea').style.display = 'block';
+      }, 800);
+    });
+  </script>
+</body>
+</html>
