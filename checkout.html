@@ -3,70 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <title>結帳｜Mulivelivek 初鹿部落</title>
-   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <style>
-    :root { --bg: #f7f3ec; --bg-soft: #fffdf8; --card: #ffffff; --border: #e3ddcf; --accent: #c58543; --accent-dark: #92572a; --text: #2f2415; --muted: #7b6d5c; }
+    :root { --bg: #f7f3ec; --card: #ffffff; --border: #e3ddcf; --accent: #c58543; --accent-dark: #92572a; --text: #2f2415; --muted: #7b6d5c; }
     * { box-sizing: border-box; }
     body { margin: 0; min-height: 100vh; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
     a { color: inherit; text-decoration: none; }
 
-
-.site-header { position: sticky; top: 0; z-index: 50; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; }
-.header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-.brand { display: flex; align-items: center; gap: 10px; }
-.brand-mark { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: radial-gradient(circle at 30% 20%, #f8e1b4, #c98c46); }
-.brand-text-main { font-size: 1.1rem; font-weight: 600; color: #fff; }
-.brand-text-sub { font-size: 0.75rem; color: #f5e3bf; letter-spacing: 0.1em; text-transform: uppercase; }
-.header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; }
-.header-nav a { color: #fff; text-decoration: none; }
-.header-nav a:hover { color: #f5e3bf; }
-.header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.4); font-size: 0.85rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; color: #fff; }
-.header-cart-pill:hover { background: rgba(0,0,0,0.6); }
-.header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: #c58543; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
-
-@media (max-width: 768px) {
-  .header-inner { padding: 10px 16px; }
-  .brand { flex: 1; }
-  .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; }
-  .header-cart-pill { margin-left: auto; }
-}
-    .site-header { position: sticky; top: 0; z-index: 50; : rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
-    .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+    /* 最上端灰色導覽列 */
+    .site-header { position: sticky; top: 0; z-index: 50; background: #6c757d; border-bottom: 1px solid #5a6268; color: #fff; }
+    .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; color: #fff; }
+    .header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.2); font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+    .header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: #c58543; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
     
-    .wrap { max-width: 500px; margin: 40px auto; padding: 0 16px; }
-    .card { : var(--card); border-radius: 20px; border: 1px solid var(--border); padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+    /* 表單樣式 */
+    .wrap { max-width: 500px; margin: 40px auto; padding: 0 16px; width: 100%; }
+    .card { background: var(--card); border-radius: 20px; border: 1px solid var(--border); padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
     h1 { font-size: 1.5rem; margin-top: 0; color: var(--accent-dark); }
     label { display: block; margin: 16px 0 6px; font-weight: 600; font-size: 0.9rem; }
-    input, textarea { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border); : #fffdf8; font-size: 1rem; }
-    
-    .ai-helper-btn { : var(--accent); color: white; padding: 6px 12px; border-radius: 8px; border: none; font-size: 0.8rem; cursor: pointer; margin-top: 8px; display: flex; align-items: center; gap: 4px; }
-    
-    .btn-submit { width: 100%; padding: 16px; background: var(--text); color: #fff; border-radius: 99px; border: none; font-weight: 600; font-size: 1.1rem; cursor: pointer; margin-top: 24px; }
+    input, textarea { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: #fffdf8; font-size: 1rem; }
+    .btn-submit { width: 100%; padding: 16px; background: var(--text); color: #fff; border-radius: 99px; border: none; font-weight: 600; font-size: 1.1rem; cursor: pointer; margin-top: 24px; transition: 0.2s; }
     .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
   </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <div class="brand">
-      <div class="brand-mark"></div>
-      <div class="brand-text">
-        <div class="brand-text-main">Mulivelivek 初鹿部落</div>
-        <div class="brand-text-sub">'inavayan</div>
-      </div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">Mulivelivek 初鹿部落</a>
+      <a href="cart.html" class="header-cart-pill">購物車 <span class="header-cart-count" id="headerCartCount">0</span></a>
     </div>
-    <nav class="header-nav">
-      <a href="index.html">首頁</a>
-      <a href="products.html">所有商品</a>
-      <a href="gallery.html">部落相簿</a>
-      <a href="order-tracking.html">訂單查詢</a>
-    </nav>
-    <a href="cart.html" class="header-cart-pill">
-      購物車 <span class="header-cart-count" id="headerCartCount">0</span>
-    </a>
-  </div>
-</header>
+  </header>
 
   <main class="wrap">
     <div class="card">
@@ -79,73 +46,52 @@
         <input type="text" value="巴拉冠自取" readonly style="background:#eee; color:#888;">
         
         <label>備註</label>
-        <button type="button" class="ai-helper-btn" id="aiHelperBtn">✨ AI 幫我寫一句話</button>
-        <textarea id="note" rows="2" placeholder="也可以在此處手寫備註"></textarea>
+        <textarea id="note" rows="3" placeholder="有什麼想告訴我們的嗎？"></textarea>
         
         <button type="submit" class="btn-submit" id="submitBtn">確認送出訂單</button>
       </form>
     </div>
   </main>
 
-<script>
-  const CART_KEY = 'mulivelivek_cart';
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwtTn76uAXjMp5ZoakeNQpuLNqQ-AWpMkha9DYC3C80a3KfAQ7XPESKDpNH98t-CLjP/exec'; 
+  <script>
+    const CART_KEY = 'mulivelivek_cart';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwtTn76uAXjMp5ZoakeNQpuLNqQ-AWpMkha9DYC3C80a3KfAQ7XPESKDpNH98t-CLjP/exec'; 
 
-  // --- AI 助手修正 ---
-  async function callGemini(prompt) {
-    const apiKey = "您在此處填入您的 API KEY"; // 請填寫您的 Key
-    // 修正：模型名稱與結構
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-    
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: "您是初鹿部落的親切小幫手。請幫顧客撰寫一句簡短、溫暖且充滿部落祝福的訂單備註，語氣要禮貌且親近。" }] },
-        contents: [{ parts: [{ text: prompt }] }]
-      })
-    });
-    
-    const data = await response.json();
-    return data.candidates[0].content.parts[0].text;
-  }
-
-  // --- 送出訂單修正 ---
-  document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true; btn.textContent = '訂單處理中...';
-
+    // 初始化購物車數字
     const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-    const itemsString = cart.map(i => `${i.name || '商品'}(${i.size || '無'})x${i.qty || 1}`).join('；');
+    document.getElementById('headerCartCount').textContent = cart.reduce((s, i) => s + (parseInt(i.qty) || 0), 0);
 
-    const data = {
-      name: document.getElementById('name').value,
-      phone: document.getElementById('phone').value,
-      last5: document.getElementById('last5').value,
-      items: itemsString,
-      pickupMethod: '巴拉冠自取',
-      note: document.getElementById('note').value
-    };
+    // 表單送出
+    document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true; btn.textContent = '訂單處理中...';
 
-    try {
-      // 建議：測試期間請移除 no-cors，改用預設模式，這樣你才能在 Console 看到錯誤訊息
-      const response = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        body: JSON.stringify(data)
-      });
-      
-      if (!response.ok) throw new Error('伺服器無回應');
-      
-      alert('訂單已送出！');
-      localStorage.removeItem(CART_KEY);
-      window.location.href = 'index.html';
-    } catch (err) {
-      console.error(err); // 打開 F12 控制台查看詳細錯誤
-      alert('送出失敗，請查看瀏覽器控制台 (F12) 的錯誤資訊。');
-      btn.disabled = false; btn.textContent = '確認送出訂單';
-    }
-  });
-</script>
+      const itemsString = cart.map(i => `${i.name || '商品'}(${i.size || '無'})x${i.qty || 1}`).join('；');
+
+      const data = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        last5: document.getElementById('last5').value,
+        items: itemsString,
+        pickupMethod: '巴拉冠自取',
+        note: document.getElementById('note').value
+      };
+
+      try {
+        await fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors', // 確保跨域請求正確
+          body: JSON.stringify(data)
+        });
+        alert('訂單已送出，感謝您的購買！');
+        localStorage.removeItem(CART_KEY);
+        window.location.href = 'index.html';
+      } catch (err) {
+        alert('送出失敗，請檢查網路連線。');
+        btn.disabled = false; btn.textContent = '確認送出訂單';
+      }
+    });
+  </script>
 </body>
 </html>
