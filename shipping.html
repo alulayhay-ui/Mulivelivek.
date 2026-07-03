@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>填寫送貨資訊｜Mulivelivek</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <style>
+    :root { --bg:#f7f3ec; --card:#ffffff; --border:#e3ddcf; --accent:#c58543; --text:#2f2415; --muted:#7b6d5c; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:system-ui, sans-serif; background:var(--bg); color:var(--text); display:flex; flex-direction:column; }
+    a { text-decoration: none; color: inherit; }
+
+    .site-header { padding: 16px; text-align: center; background: #fffdf8; border-bottom: 1px solid var(--border); font-weight: 700; font-size: 1.2rem; }
+
+    .page-content { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+    .card { max-width:500px; width:100%; background:var(--card); border-radius:20px; border:1px solid var(--border); padding:32px 24px; box-shadow:0 10px 40px rgba(0,0,0,0.06); }
+    @media (max-width: 500px) { .card { padding: 24px 16px; border-radius: 16px; } }
+
+    h1 { margin:0 0 8px; font-size:1.6rem; text-align:center; color: var(--accent-dark); }
+    .desc { font-size:0.95rem; color:var(--muted); margin-bottom:24px; text-align: center; line-height: 1.5; }
+
+    .field { margin-bottom:16px; }
+    label { display:block; margin-bottom:6px; font-weight:600; font-size:0.95rem; }
+    input, select, textarea { width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:#fffdf9; font-size:1rem; outline: none; transition: 0.2s; }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(197, 133, 67, 0.1); background: #fff; }
+
+    .btn { width:100%; padding:16px; border-radius:99px; background:var(--accent); color:#fff; border:none; font-size:1.1rem; font-weight:700; cursor:pointer; margin-top:16px; transition: 0.2s; }
+    .btn:hover { background:#a66b30; transform: translateY(-2px); }
+    
+    .back-link { display:block; text-align:center; margin-top:20px; font-size:0.95rem; color:var(--muted); text-decoration:underline; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header class="site-header">Mulivelivek 結帳流程</header>
+
+  <main class="page-content">
+    <form class="card" id="shippingForm">
+      <h1>運送資訊</h1>
+      <p class="desc">請確實填寫收件資料，我們將在確認匯款後盡快為您出貨。</p>
+
+      <div class="field">
+        <label>收件人姓名</label>
+        <input type="text" required placeholder="請輸入真實姓名">
+      </div>
+      <div class="field">
+        <label>聯絡電話 (手機)</label>
+        <input type="tel" required placeholder="例如：0912345678">
+      </div>
+      <div class="field">
+        <label>取貨方式</label>
+        <select required>
+          <option value="">請選擇...</option>
+          <option value="711">7-11 店到店 (後續將導向賣貨便)</option>
+          <option value="pickup">部落親自取貨</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>備註事項 (選填)</label>
+        <textarea rows="3" placeholder="有任何特殊需求請告訴我們"></textarea>
+      </div>
+
+      <button type="submit" class="btn">確認送出訂單</button>
+      <a href="cart.html" class="back-link">返回修改購物車</a>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById('shippingForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('🎉 訂單已成功送出！\n\n(此為展示網站模擬流程，不會實際扣款。)');
+      localStorage.removeItem('mulivelivekCart'); // 結帳後清空購物車
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
