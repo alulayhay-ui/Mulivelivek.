@@ -15,6 +15,7 @@
     .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
     .brand-text-main { font-size: 1.1rem; font-weight: 600; }
     .header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+    .header-nav a:hover { color: var(--accent); }
     @media (max-width: 768px) { .header-inner{padding: 10px 16px;} .brand { flex: 1; } .header-nav { order: 3; width: 100%; justify-content: center; margin-top: 12px; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; } }
 
     /* Cart Page RWD */
@@ -55,7 +56,7 @@
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <div class="brand"><div class="brand-text-main">Mulivelivek</div></div>
+      <div class="brand"><a href="index.html" class="brand-text-main">Mulivelivek</a></div>
       <nav class="header-nav"><a href="index.html">首頁</a><a href="products.html">所有商品</a><a href="gallery.html">相簿</a><a href="order-tracking.html">訂單查詢</a></nav>
     </div>
   </header>
@@ -69,7 +70,7 @@
         <a href="products.html" class="btn btn-outline">繼續購物</a>
         <div class="total-area">
           <div class="total-text">總計: <span id="cartTotal" style="color:var(--accent-dark);">NT$ 0</span></div>
-          <button class="btn" id="checkoutBtn">填寫運送資料</button>
+          <a href="shipping.html" class="btn" id="checkoutBtn" style="text-decoration:none; display:inline-block;">填寫運送資料</a>
         </div>
       </div>
     </div>
@@ -83,11 +84,13 @@
       const cart = loadCart();
       const list = document.getElementById('cartList');
       const totalEl = document.getElementById('cartTotal');
+      const checkoutBtn = document.getElementById('checkoutBtn');
       
       if(cart.length === 0) {
         list.innerHTML = '<div style="text-align:center; padding:40px 20px; color:var(--muted); font-size:1.1rem;">您的購物車空空的，去逛逛吧！</div>';
         totalEl.textContent = 'NT$ 0';
-        document.getElementById('checkoutBtn').style.opacity = '0.5';
+        checkoutBtn.style.opacity = '0.5';
+        checkoutBtn.style.pointerEvents = 'none';
         return;
       }
       
@@ -106,7 +109,8 @@
         `;
       });
       list.innerHTML = html; totalEl.textContent = 'NT$ ' + total;
-      document.getElementById('checkoutBtn').style.opacity = '1';
+      checkoutBtn.style.opacity = '1';
+      checkoutBtn.style.pointerEvents = 'auto';
     }
 
     function removeItem(idx) {
@@ -114,10 +118,6 @@
       localStorage.setItem(CART_KEY, JSON.stringify(cart)); render();
     }
 
-    document.getElementById('checkoutBtn').addEventListener('click', () => {
-      if(loadCart().length === 0) { alert('購物車是空的喔！'); return; }
-      window.location.href = 'shipping.html';
-    });
     render();
   </script>
 </body>
