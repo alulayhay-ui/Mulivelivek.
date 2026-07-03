@@ -371,7 +371,7 @@
 
 <script>
   const CART_KEY   = 'mulivelivek_cart';
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzIqP83qH7vwYXwbRAnNRKnx4qXHlie9PQ5iZrOOJmNUJ2akUBbXkZwHszfhvShMgTx/exec';
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx4TWxPK2-dbyzcxKMGkpsp6sg8O6Gfz7EUAut-YqtkXVAn4o8uXrl1dzjiAvnNWtvI/exec';
 
   // 匯款截圖狀態
   let hasScreenshot = false;
@@ -395,42 +395,23 @@
   }
 
   // 組訂單資料（會一起帶匯款截圖）
-  function buildOrderData(pickupMethod) {
-    const cart = getCart();
+function buildOrderData(pickupMethod) {
+  const cart = getCart();
 
-    const sizeCounts = { M: 0, L: 0, XL: 0, '2XL': 0, '3XL': 0 };
-    cart.forEach(i => {
-      if (sizeCounts[i.size] != null) {
-        sizeCounts[i.size] += i.qty;
-      }
-    });
+  // 將購物車內容轉為一個文字字串，存入「款式」欄位
+  const itemsString = cart
+    .map(i => `${i.name || '商品'} (尺寸:${i.size || '無'}, 數量:${i.qty || 1})`)
+    .join('；');
 
-    const itemsString = cart
-      .map(i => `${i.name}（尺寸：${i.size}，數量：${i.qty}）`)
-      .join('；');
-
-    const total = cart.reduce((t, i) => t + (i.price || 0) * (i.qty || 0), 0);
-
-    return {
-      formName: 'Mulivelivek初鹿部落祭典商品',
-      name:  sessionStorage.getItem('mulive_name')  || '',
-      phone: sessionStorage.getItem('mulive_phone') || '',
-      last5: sessionStorage.getItem('mulive_last5') || '',
-      note:  sessionStorage.getItem('mulive_note')  || '',
-      items: itemsString,
-      total,
-      pickupMethod: pickupMethod || '',
-      createdAt: new Date().toISOString(),
-      sizeM: sizeCounts['M'],
-      sizeL: sizeCounts['L'],
-      sizeXL: sizeCounts['XL'],
-      size2XL: sizeCounts['2XL'],
-      size3XL: sizeCounts['3XL'],
-      screenshotName: screenshotFileName || '',
-      remitImage: remitImageBase64 || ''
-    };
-  }
-
+  return {
+    name:         sessionStorage.getItem('mulive_name') || '',
+    phone:        sessionStorage.getItem('mulive_phone') || '',
+    last5:        sessionStorage.getItem('mulive_last5') || '',
+    items:        itemsString, // 這就是您的「款式」欄位
+    pickupMethod: pickupMethod || '',
+    note:         sessionStorage.getItem('mulive_note') || ''
+  };
+}
 // ✅ 這一段直接覆蓋你現在的 sendOrderToSheet
 
 async function sendOrderToSheet(orderData) {
