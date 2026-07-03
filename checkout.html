@@ -52,85 +52,65 @@
     </div>
   </main>
 
-  <script>
-    const CART_KEY = 'mulivelivek_cart';
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwtTn76uAXjMp5ZoakeNQpuLNqQ-AWpMkha9DYC3C80a3KfAQ7XPESKDpNH98t-CLjP/exec'; 
+<script>
+  const CART_KEY = 'mulivelivek_cart';
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwtTn76uAXjMp5ZoakeNQpuLNqQ-AWpMkha9DYC3C80a3KfAQ7XPESKDpNH98t-CLjP/exec'; 
 
-    async function callGemini(prompt, retries = 3, delay = 1000) {
-      const apiKey = ""; // API Key will be provided by environment
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+  // --- AI 助手修正 ---
+  async function callGemini(prompt) {
+    const apiKey = "您在此處填入您的 API KEY"; // 請填寫您的 Key
+    // 修正：模型名稱與結構
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: "您是初鹿部落的親切小幫手。請幫顧客撰寫一句簡短、溫暖且充滿部落祝福的訂單備註，語氣要禮貌且親近。" }] },
+        contents: [{ parts: [{ text: prompt }] }]
+      })
+    });
+    
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
+  }
+
+  // --- 送出訂單修正 ---
+  document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = '訂單處理中...';
+
+    const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+    const itemsString = cart.map(i => `${i.name || '商品'}(${i.size || '無'})x${i.qty || 1}`).join('；');
+
+    const data = {
+      name: document.getElementById('name').value,
+      phone: document.getElementById('phone').value,
+      last5: document.getElementById('last5').value,
+      items: itemsString,
+      pickupMethod: '巴拉冠自取',
+      note: document.getElementById('note').value
+    };
+
+    try {
+      // 建議：測試期間請移除 no-cors，改用預設模式，這樣你才能在 Console 看到錯誤訊息
+      const response = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
       
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            systemInstruction: { parts: [{ text: "您是初鹿部落的親切小幫手。請幫顧客撰寫一句簡短、溫暖且充滿部落祝福的訂單備註，語氣要禮貌且親近。" }] }
-          })
-        });
-        
-        if (!response.ok) throw new Error('API Error');
-        const data = await response.json();
-        return data.candidates[0].content.parts[0].text;
-      } catch (err) {
-        if (retries > 0) {
-          await new Promise(resolve => setTimeout(resolve, delay));
-          return callGemini(prompt, retries - 1, delay * 2);
-        }
-        throw err;
-      }
+      if (!response.ok) throw new Error('伺服器無回應');
+      
+      alert('訂單已送出！');
+      localStorage.removeItem(CART_KEY);
+      window.location.href = 'index.html';
+    } catch (err) {
+      console.error(err); // 打開 F12 控制台查看詳細錯誤
+      alert('送出失敗，請查看瀏覽器控制台 (F12) 的錯誤資訊。');
+      btn.disabled = false; btn.textContent = '確認送出訂單';
     }
-
-    document.getElementById('aiHelperBtn').addEventListener('click', async () => {
-      const btn = document.getElementById('aiHelperBtn');
-      const noteArea = document.getElementById('note');
-      
-      btn.textContent = '撰寫中...';
-      btn.disabled = true;
-      
-      try {
-        const suggestion = await callGemini("請寫一句簡短的訂單祝福話語，包含對初鹿部落的喜愛。");
-        noteArea.value = suggestion;
-      } catch (e) {
-        alert('抱歉，AI 暫時休息中，請手動輸入。');
-      } finally {
-        btn.textContent = '✨ AI 幫我寫一句話';
-        btn.disabled = false;
-      }
-    });
-
-    document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true; btn.textContent = '訂單處理中...';
-
-      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-      const itemsString = cart.map(i => `${i.name || '商品'}(${i.size || '無'})x${i.qty || 1}`).join('；');
-
-      const data = {
-        name: document.getElementById('name').value,
-        phone: document.getElementById('phone').value,
-        last5: document.getElementById('last5').value,
-        items: itemsString,
-        pickupMethod: '巴拉冠自取',
-        note: document.getElementById('note').value
-      };
-
-      try {
-        await fetch(WEB_APP_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify(data)
-        });
-        alert('訂單已送出，感謝您的購買！');
-        localStorage.removeItem(CART_KEY);
-        window.location.href = 'index.html';
-      } catch (err) {
-        alert('送出失敗，請檢查網路連接。');
-        btn.disabled = false; btn.textContent = '確認送出訂單';
-      }
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
