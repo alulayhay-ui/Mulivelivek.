@@ -5,6 +5,7 @@
   <title>初鹿部落年祭限定水洗長袖｜Mulivelivek</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <style>
+    /* ... existing code ... */
     :root { --bg: #f7f3ec; --bg-soft: #fffdf8; --card: #ffffff; --border: #e3ddcf; --accent: #c58543; --accent-dark: #92572a; --text: #2f2415; --muted: #7b6d5c; --black: #111111; }
     * { box-sizing: border-box; }
     body { margin: 0; min-height: 100vh; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); }
@@ -32,12 +33,20 @@
       .product-shell { grid-template-columns: 1fr; padding: 20px; gap: 24px; }
     }
     
-    .image-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .image-box { background: #e5ded1; border-radius: 12px; position: relative; padding-top: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .image-box img { position: absolute; width: 100%; height: 100%; object-fit: cover; }
-    @media (max-width: 480px) { .image-grid { grid-template-columns: 1fr; } .image-box { padding-top: 80%; } }
+    /* 圖片切換系統 */
+    .image-gallery { display: flex; flex-direction: column; gap: 12px; }
+    .main-image-view { width: 100%; aspect-ratio: 1/1; background: #fdfaf5; border-radius: 16px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); }
+    .main-image-view img { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
+    .thumb-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; }
+    /* 隱藏捲軸 */
+    .thumb-list::-webkit-scrollbar { display: none; }
+    .thumb-list { -ms-overflow-style: none; scrollbar-width: none; }
+    .thumb-item { width: 80px; height: 80px; flex-shrink: 0; border-radius: 8px; border: 2px solid transparent; cursor: pointer; overflow: hidden; background: #fff; transition: border-color 0.2s ease; }
+    .thumb-item.active { border-color: var(--accent); }
+    .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
     
     .info-panel { display: flex; flex-direction: column; gap: 16px; }
+    /* ... existing code ... */
     .title-main { font-size: 1.8rem; font-weight: 700; margin: 0; line-height: 1.3; }
     .price { font-size: 1.3rem; font-weight: 700; color: var(--accent-dark); }
     
@@ -90,15 +99,27 @@
     <div class="breadcrumb"><a href="index.html">首頁</a> / <a href="products.html">所有商品</a> / <span>水洗長袖</span></div>
     
     <section class="product-shell">
-      <div class="image-grid">
-        <div class="image-box">
-            <img src="assets/pic/S__110592122.jpg" alt="產品正面照" onerror="this.onerror=null;this.src='https://placehold.co/400x400?text=正面照'">
+      <div class="image-gallery">
+        <div class="main-image-view">
+          <img id="mainDisplay" src="assets/pic/S__110592122.jpg" alt="產品主圖" onerror="this.onerror=null;this.src='https://placehold.co/800x800?text=商品圖片'">
         </div>
-        <div class="image-box">
+        <div class="thumb-list">
+          <!-- 您可以在此處新增更多縮圖，onclick 函式會處理切換邏輯 -->
+          <div class="thumb-item active" onclick="switchImage('assets/pic/S__110592122.jpg', this)">
+            <img src="assets/pic/S__110592122.jpg" alt="產品正面照" onerror="this.onerror=null;this.src='https://placehold.co/400x400?text=正面照'">
+          </div>
+          <div class="thumb-item" onclick="switchImage('assets/pic/S__110592122.jpg', this)">
             <img src="assets/pic/S__110592122.jpg" alt="產品背面照" onerror="this.onerror=null;this.src='https://placehold.co/400x400?text=背面照'">
+          </div>
+          <!-- 範例：如果還有第三張圖片
+          <div class="thumb-item" onclick="switchImage('assets/pic/第三張照片.jpg', this)">
+            <img src="assets/pic/第三張照片.jpg" alt="細節照" onerror="this.onerror=null;this.src='https://placehold.co/400x400?text=細節照'">
+          </div>
+          -->
         </div>
       </div>
       <div class="info-panel">
+      /* ... existing code ... */
         <h1 class="title-main">初鹿部落年祭限定水洗長袖</h1>
         <div class="price">NT$ 450</div>
         <p style="color:var(--muted); font-size:0.95rem; line-height:1.6; margin:0;">結合初鹿大地的形狀與部落記憶，採用特殊水洗工藝，版型寬鬆舒適。</p>
@@ -128,7 +149,7 @@
 
     <section class="ai-styling-section">
       <div class="ai-styling-title">✨ AI 穿搭顧問</div>
-      <p style="font-size:0.95rem; color:var(--muted); margin:0;">不知道這件寬版水洗長袖該怎麼搭嗎？告訴我你想去的場合，我來幫你出主意！</p>
+      <p style="font-size:0.95rem; color:var(--muted); margin:0;">不知道這件寬版水洗長袖該怎麼搭嗎？告訴我你想去的場合，我來幫去出主意！</p>
       <div class="ai-styling-input-group">
         <input type="text" class="ai-style-input" id="styleInput" placeholder="例如：跟朋友去露營、或是去喝咖啡...">
         <button class="ai-style-btn" id="styleBtn">獲得專屬建議</button>
@@ -148,15 +169,30 @@
   </div>
 
   <script>
+    // 圖片切換邏輯
+    function switchImage(src, element) {
+      const mainImg = document.getElementById('mainDisplay');
+      // 簡單的淡出淡入效果
+      mainImg.style.opacity = 0;
+      setTimeout(() => {
+        mainImg.src = src;
+        mainImg.style.opacity = 1;
+      }, 150);
+
+      // 更新縮圖的 active 狀態
+      document.querySelectorAll('.thumb-item').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+    }
+
     let currentSize = 'M', qty = 1;
     function setSize(btn, size) { document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentSize = size; }
     function updateQty(n) { if(qty + n > 0) { qty += n; document.getElementById('qtyDisplay').textContent = qty; } }
-    function loadCart() { try { return JSON.parse(localStorage.getItem('mulivelivekCart') || '[]'); } catch { return []; } }
-    function saveCart(c) { localStorage.setItem('mulivelivekCart', JSON.stringify(c)); document.getElementById('headerCartCount').textContent = c.reduce((s,i)=>s+(i.quantity||0),0); }
+    function loadCart() { try { return JSON.parse(localStorage.getItem('mulivelivek_cart') || '[]'); } catch { return []; } }
+    function saveCart(c) { localStorage.setItem('mulivelivek_cart', JSON.stringify(c)); document.getElementById('headerCartCount').textContent = c.reduce((s,i)=>s+(i.qty||0),0); }
     
     document.getElementById('addToCartBtn').addEventListener('click', () => {
       const cart = loadCart();
-      cart.push({ style: '年祭限定水洗長袖', size: currentSize, quantity: qty, price: 450 });
+      cart.push({ name: '年祭限定水洗長袖', size: currentSize, qty: qty, price: 450 });
       saveCart(cart);
       document.getElementById('miniSize').textContent = `(尺寸: ${currentSize} / 數量: ${qty})`;
       document.getElementById('miniCart').style.display = 'flex';
@@ -186,3 +222,9 @@
   </script>
 </body>
 </html>
+```eof
+
+**主要變更點：**
+1. 將原本的 `.image-grid` 和 `.image-box` CSS 刪除，替換為 `.image-gallery` 相關的排版（包含主圖區塊 `.main-image-view` 和縮圖列表 `.thumb-list`）。
+2. HTML 結構調整，改為一個大圖顯示區，下方配上一排可點擊的縮圖。
+3. 在 `<script>` 區塊新增了 `switchImage()` 函式，用於處理點擊縮圖時，更換主圖以及改變縮圖邊框顏色的互動效果。同時加入了一點簡單的淡出淡入動畫，讓切換更平滑。
