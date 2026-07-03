@@ -106,7 +106,7 @@
         <div>
           <div class="label">尺寸</div>
           <div class="size-row">
-            <button class="size-btn active" onclick="setSize(this, 'M')">正常</button>
+            <button class="size-btn active" onclick="setSize(this, '正常')">正常</button>
  
           </div>
         </div>
@@ -154,7 +154,7 @@
     
     document.getElementById('addToCartBtn').addEventListener('click', () => {
       const cart = loadCart();
-      cart.push({ style: '年祭限定水洗長袖', size: currentSize, quantity: qty, price: 450 });
+      cart.push({ style: '收穫祭限定提袋 ', size: currentSize, quantity: qty, price: 200 });
       saveCart(cart);
       document.getElementById('miniSize').textContent = `(尺寸: ${currentSize} / 數量: ${qty})`;
       document.getElementById('miniCart').style.display = 'flex';
