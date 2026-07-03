@@ -1,65 +1,33 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <title>填寫送貨資訊｜Mulivelivek</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    :root { --bg:#f7f3ec; --card:#ffffff; --border:#e3ddcf; --accent:#c58543; --text:#2f2415; --muted:#7b6d5c; }
-    body { margin:0; min-height:100vh; font-family:system-ui, sans-serif; background:var(--bg); color:var(--text); display:flex; align-items:center; justify-content:center; padding:20px; }
-    .card { max-width:500px; width:100%; background:var(--card); border-radius:20px; border:1px solid var(--border); padding:32px 24px; box-shadow:0 10px 30px rgba(0,0,0,0.05); }
-    h1 { margin-top:0; font-size:1.5rem; text-align:center; color: var(--accent); }
-    .field { margin-bottom:16px; }
-    label { display:block; margin-bottom:6px; font-weight:600; font-size:0.95rem; }
-    input, select, textarea { width:100%; padding:14px; border-radius:12px; border:1px solid var(--border); background:#fffdf9; font-size:1rem; }
-    .btn { width:100%; padding:14px; border-radius:99px; background:var(--accent); color:#fff; border:none; font-size:1.1rem; font-weight:600; cursor:pointer; margin-top:10px; }
-    .btn:disabled { background: #ccc; }
-  </style>
-</head>
-<body>
-  <form class="card" id="shippingForm">
-    <h1>運送資訊</h1>
-    <div class="field"><label>姓名</label><input type="text" id="name" required></div>
-    <div class="field"><label>電話</label><input type="tel" id="phone" required></div>
-    <div class="field"><label>匯款後五碼</label><input type="text" id="code" maxlength="5" required></div>
-    <div class="field"><label>取貨方式</label><select id="ship"><option>7-11 店到店</option><option>部落自取</option></select></div>
-    <div class="field"><label>備註</label><textarea id="note" rows="3"></textarea></div>
+// 1. 放入新的部署網址
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzPOf0RR61GqfSRaufMEUbDlYZAYb00Xwmfwqtdq5oa2kfXfeUcCDSFSyQXT5yRg4Z_/exec';
 
-    <button type="submit" class="btn" id="submitBtn">送出訂單</button>
-  </form>
+// 2. 確保資料格式與後端對齊
+function buildOrderData(pickupMethod) {
+  const cart = getCart();
+  const itemsString = cart
+    .map(i => `${i.name || '商品'} (尺寸:${i.size || '無'}, 數量:${i.qty || 1})`)
+    .join('；');
 
-  <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx09XsmlgYGZAiEwxST55mHtNSZ9orMwCq7oQIuVgBsp9-1FPNc9JwPulx60aEHjYUV/exec"; // 👈 請填入您的網址
+  return {
+    name:         sessionStorage.getItem('mulive_name') || '',
+    phone:        sessionStorage.getItem('mulive_phone') || '',
+    last5:        sessionStorage.getItem('mulive_last5') || '',
+    items:        itemsString, 
+    pickupMethod: pickupMethod || '',
+    note:         sessionStorage.getItem('mulive_note') || ''
+  };
+}
 
-    document.getElementById('shippingForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true; btn.textContent = '送出中...';
-
-      const payload = {
-        name: document.getElementById('name').value,
-        phone: document.getElementById('phone').value,
-        code: document.getElementById('code').value,
-        ship: document.getElementById('ship').value,
-        note: document.getElementById('note').value,
-        storeInfo: "無"
-      };
-
-      try {
-        await fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        alert('訂單已傳送至部落系統，並已寄送通知信給管理者！');
-        localStorage.removeItem('mulivelivekCart');
-        window.location.href = 'index.html';
-      } catch (err) {
-        alert('發生錯誤，請稍後再試。');
-        btn.disabled = false; btn.textContent = '送出訂單';
-      }
+// 3. 發送函式 (不要加 header，使用 no-cors)
+async function sendOrderToSheet(orderData) {
+  try {
+    await fetch(WEB_APP_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify(orderData)
     });
-  </script>
-</body>
-</html>
+    console.log('送出成功');
+  } catch (err) {
+    console.error('送出失敗', err);
+  }
+}
