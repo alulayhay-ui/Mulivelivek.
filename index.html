@@ -10,11 +10,11 @@
     body { margin: 0; min-height: 100vh; font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
 
-    /* 共用按鈕 */
     .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 20px; border-radius: 999px; border: 1px solid var(--accent); background: var(--accent); color: #fff; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; transition: 0.2s; }
     .btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--accent-dark); }
+    .btn-outline:hover { background: var(--accent); color: #fff; }
 
-    /* Header (RWD) */
     .site-header { position: sticky; top: 0; z-index: 50; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; }
     .header-inner { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
     .brand { display: flex; align-items: center; gap: 10px; }
@@ -23,7 +23,8 @@
     .brand-text-sub { font-size: 0.75rem; color: #f5e3bf; letter-spacing: 0.1em; text-transform: uppercase; }
     .header-nav { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; }
     .header-nav a:hover { color: #fff; }
-    .header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.4); font-size: 0.85rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); }
+    .header-cart-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,0.4); font-size: 0.85rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; }
+    .header-cart-pill:hover { background: rgba(0,0,0,0.6); }
     .header-cart-count { min-width: 20px; height: 20px; border-radius: 999px; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
 
     @media (max-width: 768px) {
@@ -33,7 +34,6 @@
       .header-cart-pill { margin-left: auto; }
     }
 
-    /* Hero */
     .full-video-hero { position: relative; width: 100%; height: 100vh; overflow: hidden; background: #000; }
     .video-bg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .video-bg iframe { position: absolute; top: 50%; left: 50%; width: 150vw; height: 150vh; transform: translate(-50%, -50%); pointer-events: none; border: 0; }
@@ -48,7 +48,6 @@
       .video-bg iframe { width: 300vw; height: 300vh; } 
     }
 
-    /* Page Content */
     .page { max-width: 1100px; margin: 0 auto; padding: 40px 16px; }
     .section-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
     .section-title { font-size: 1.4rem; font-weight: 700; color: var(--accent-dark); }
@@ -60,14 +59,14 @@
 
     .product-card { background: var(--card); border-radius: 16px; border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
     .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-    .product-thumb { position: relative; padding-top: 85%; background: #e5ded1; }
+    .product-thumb { position: relative; padding-top: 85%; background: #e5ded1; overflow: hidden; }
+    .product-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .product-thumb-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #4c4032; text-align: center; padding: 10px; }
     .product-body { padding: 16px; display: flex; flex-direction: column; gap: 6px; }
     .product-name { font-weight: 600; font-size: 1.05rem; }
     .product-tagline { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
     .product-price { margin-top: 4px; font-weight: 700; color: var(--accent-dark); font-size: 1.1rem; }
 
-    /* IG Section (RWD) */
     .ig-section { margin-top: 60px; padding: 30px; border-radius: 20px; background: var(--card); border: 1px solid var(--border); display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; align-items: center; }
     .ig-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
     .ig-sub { font-size: 0.95rem; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
@@ -75,7 +74,7 @@
     .ig-pill { padding: 6px 12px; border-radius: 999px; border: 1px dashed var(--accent); color: var(--accent-dark); font-size: 0.8rem; }
     .ig-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .ig-photo { background: #ddd1c2; border-radius: 12px; padding-top: 100%; position: relative; overflow: hidden; }
-    .ig-photo-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; text-align: center; padding: 4px; color: #4c4032; }
+    .ig-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
     @media (max-width: 768px) {
       .ig-section { grid-template-columns: 1fr; padding: 20px; text-align: center; }
@@ -83,7 +82,6 @@
       .ig-section .btn { width: 100%; }
     }
 
-    /* Footer (RWD) */
     .site-footer { border-top: 1px solid var(--border); padding: 40px 16px 20px; background: #fffdf8; }
     .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr; gap: 30px; font-size: 0.9rem; color: var(--muted); }
     .footer-title { font-weight: 700; color: var(--text); margin-bottom: 8px; font-size: 1rem; }
@@ -96,7 +94,6 @@
       .footer-social, .footer-payments { justify-content: center; display: flex; gap: 8px; margin-top: 8px; }
     }
 
-    /* ✨ AI Chat Widget (RWD) */
     .ai-fab { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(197, 133, 67, 0.4); cursor: pointer; z-index: 100; font-size: 1.8rem; transition: 0.2s; }
     .ai-fab:hover { transform: scale(1.08); background: var(--accent-dark); }
     .ai-chat-window { position: fixed; bottom: 100px; right: 24px; width: 350px; max-width: calc(100vw - 32px); height: 500px; max-height: calc(100vh - 120px); background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid var(--border); display: none; flex-direction: column; z-index: 100; overflow: hidden; }
@@ -159,26 +156,26 @@
           <div class="section-title">所有商品</div>
           <div class="section-sub">Mulivelivek初鹿部落限定祭典系列</div>
         </div>
-        <a href="products.html" class="btn btn-outline" style="padding:8px 16px; color:var(--accent-dark); border-color:var(--border);">查看全部</a>
+        <a href="products.html" class="btn btn-outline" style="padding:8px 16px;">查看全部</a>
       </div>
 
       <div class="product-grid">
         <a href="product-long-sleeve.html" class="product-card">
           <div class="product-thumb">
-            <div class="product-thumb-inner">收穫祭限定提袋<br/>(點擊查看詳情)</div>
+            <img src="assets/pic/S__110592122.jpg" alt="年祭限定水洗長袖" class="product-img">
           </div>
           <div class="product-body">
             <div class="product-name">初鹿部落收穫祭限定提袋</div>
-            <div class="product-tagline">今年的周邊，我們以 「花裙sukun」 為主軸推出限定款式。</div>
+            <div class="product-tagline">今年的收穫祭，我們以 「工作裙Sukun」 為主軸推出限定商品。</div>
             <div class="product-price">NT$ 450</div>
           </div>
         </a>
         <div class="product-card" style="opacity:0.6;">
-          <div class="product-thumb"><div class="product-thumb-inner">敬請期待</div></div>
+          <div class="product-thumb"><img src="https://placehold.co/600x600?text=敬請期待" class="product-img"></div>
           <div class="product-body"><div class="product-name">初鹿限定商品</div><div class="product-tagline">籌備中...</div><div class="product-price">NT$ 0</div></div>
         </div>
         <div class="product-card" style="opacity:0.6;">
-          <div class="product-thumb"><div class="product-thumb-inner">敬請期待</div></div>
+          <div class="product-thumb"><img src="https://placehold.co/600x600?text=敬請期待" class="product-img"></div>
           <div class="product-body"><div class="product-name">初鹿限定周邊</div><div class="product-tagline">籌備中...</div><div class="product-price">NT$ 0</div></div>
         </div>
       </div>
@@ -190,13 +187,14 @@
         <p class="ig-sub">想看更多祭典側拍、田裡的日常、文化站的阿嬤阿公們，歡迎到 IG 追蹤我們。預購時間、取貨公告也會優先更新在那邊。</p>
         <a class="btn" href="https://www.instagram.com/ulivelivek/" target="_blank">追蹤 Instagram</a>
         <div class="ig-pill-row">
-          <div class="ig-pill">#初鹿部落</div><div class="ig-pill">#年祭限定</div><div class="ig-pill">#部落日常</div>
+          <div class="ig-pill">#初鹿部落</div><div class="ig-pill">#祭典限定</div><div class="ig-pill">#部落日常</div>
         </div>
       </div>
       <div class="ig-preview">
-        <div class="ig-photo"><div class="ig-photo-inner">年祭舞蹈</div></div>
-        <div class="ig-photo"><div class="ig-photo-inner">種田日常</div></div>
-        <div class="ig-photo"><div class="ig-photo-inner">實穿照</div></div>
+        <!-- 這裡換成圖片 -->
+        <div class="ig-photo"><img src="assets/pic/舞圈.JPG=年祭舞蹈" class="ig-img"></div>
+        <div class="ig-photo"><img src="assets/pic/老照片.jpg=種田日常" class="ig-img"></div>
+        <div class="ig-photo"><img src="assets/pic/小米.jpg=實穿照" class="ig-img"></div>
       </div>
     </section>
   </main>
@@ -225,7 +223,6 @@
     </div>
   </footer>
 
-  <!-- ✨ AI Chat Widget -->
   <div class="ai-fab" id="aiFab">✨</div>
   <div class="ai-chat-window" id="aiWindow">
     <div class="ai-header">
@@ -264,6 +261,11 @@
 
       try {
         const apiKey = ""; 
+        if (!apiKey) {
+            document.getElementById(loadingId).textContent = "我是 Mulivelivek 導覽員！(注意：目前尚未串接 API 金鑰，所以這是預設回覆喔！)";
+            return;
+        }
+
         const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -272,13 +274,15 @@
           })
         });
         const data = await res.json();
+        if (data.error) throw new Error(data.error.message);
         document.getElementById(loadingId).innerHTML = data.candidates?.[0]?.content?.parts?.[0]?.text.replace(/\n/g, '<br>') || "抱歉，請稍後再試。";
       } catch (e) {
-        document.getElementById(loadingId).textContent = "發生錯誤，請檢查網路。";
+        document.getElementById(loadingId).textContent = "連線失敗，請檢查 API Key 或網路連線。";
       } finally {
         aiSend.disabled = false; aiMessages.scrollTop = aiMessages.scrollHeight;
       }
     }
+    
     function appendMessage(text, sender) {
       const div = document.createElement('div');
       div.className = `msg msg-${sender}`; div.id = 'msg-' + Date.now();
