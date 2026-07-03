@@ -108,15 +108,19 @@
   </footer>
   
 <script>
-    // 統一讀取與 Header 更新邏輯
-    const CART_KEY = 'mulivelivek_cart';
-    function updateCartCount() {
-      const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-      const count = cart.reduce((s, i) => s + (parseInt(i.qty) || 0), 0);
-      document.getElementById('headerCartCount').textContent = count;
-    }
-    updateCartCount();
-  </script>
+  const CART_KEY = 'mulivelivek_cart';
+  function updateCartCount() {
+    // 讀取購物車資料，若無則為空陣列
+    const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+    // 加總所有項目的數量 (i.qty)
+    const count = cart.reduce((s, i) => s + (parseInt(i.qty) || 0), 0);
+    // 更新頁面上的數字
+    const countEl = document.getElementById('headerCartCount');
+    if (countEl) countEl.textContent = count;
+  }
+  // 頁面載入時執行
+  updateCartCount();
+</script>
 </body>
 </html>
 ```
